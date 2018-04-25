@@ -13,8 +13,8 @@ class MixInBase(object):
     def __tablename__(cls):
         return cls.__name__.lower()
 
-#    # index columns
-#    id = Column(Integer, primary_key=True, autoincrement=True)
+    # index columns
+    Id = Column(Integer, primary_key=True, autoincrement=True)
 
     # who columns
     created_on = Column(DateTime, default=func.now())
@@ -28,8 +28,22 @@ class MixInBase(object):
 
 
 # definition data tables.
+class Zoo_Master(MixInBase, Base):
+    """ZOO_MASTER table
+    this table is define of zoos.
+    Id: int: key(auto)
+    ZooName: string: name of this zoo
+    and who columns.
+    """
+    ZooName = Column(String)
+
+    def __init__(self, zooname):
+        self.ZooName = zooname
+
+
 class Group_Calendar(MixInBase, Base):
     """GROUP_CALENDAR table
+    this table is joining group schedule and zoo schedule.
     GroupId: int: link to GROUP.Id
     ZooCalendarId: int: link to ZOO_CALENDAR.Id
     and who columns.
@@ -40,11 +54,11 @@ class Group_Calendar(MixInBase, Base):
 
 class Group_Master(MixInBase, Base):
     """GROUP table
+    this table is define of groups.
     Id: int: key(auto)
     GroupName: string: name of this group.
     and who columns.
     """
-    Id = Column(Integer, primary_key=True, autoincrement=True)
     GroupName = Column(String)
 
     def __init__(self, group_name):
@@ -53,73 +67,27 @@ class Group_Master(MixInBase, Base):
 
 class Login_Information_Master(MixInBase, Base):
     """LOGIN_INFORMATION_MASTER table
+    this table is stored login information of any group.
     GroupId: int: link to GROUP.Id
-    PasswordHash: string: hash of login password
+    Password: string: hash of login password
+    PasswordSalt: string: salt of password
     and who columns.
+    * password stored hashed at SHA-512
     """
     GroupId = Column(Integer, ForeignKey("GROUP.Id"), nullable=False)
-    PasswordHash = Column(String, nullable=False)
+    Password = Column(String, nullable=False)
+    PasswordSalt = Column(String)
 
-# class Zoo(MixInBase, Base):
-#     """zoo table
-#     id: int: key (auto)
-#     zoo_name: string
-#     """
-#     zoo_name = Column(String)
-#
-#     def __init__(self, zoo_name):
-#         self.zoo_name = zoo_name
-#
-#
-# class User_(MixInBase, Base):
-#     """user table
-#     id: int: key (auto)
-#     user_code: string: => 44xx
-#     """
-#     user_code = Column(String, unique=True)
-#
-#     def __init__(self, user_code):
-#         self.user_code = user_code
-#
-#
-# class Group_(MixInBase, Base):
-#     """group_ table
-#     id: int: key (auto)
-#     group_name: string
-#     zoo_id: int => link to Zoo.id
-#     """
-#     group_name = Column(String)
-#     zoo_id = Column(Integer, ForeignKey("zoo.id"), nullable=False)
-#
-#     def __init__(self, group_name, zoo_id):
-#         self.group_name = group_name
-#         self.zoo_id = zoo_id
-#
-#
-# class GroupActiveDay(MixInBase, Base):
-#     """groupactiveday table
-#     id: int: key (auto)
-#     activity_date: date
-#     activity_group_id: int => link to Group.id
-#     """
-#     active_day = Column(Date, nullable=False)
-#     active_time_from = Column(String)
-#     active_time_to = Column(String)
-#     active_group_id = Column(Integer, ForeignKey("group_.id"), nullable=False)
-#
-#     def __init__(self, active_day, active_group_id):
-#         self.active_day = active_day
-#         self.active_group_id = active_group_id
-#
-#
-# class UserActiveDay(MixInBase, Base):
-#     """useractiveday table
-#     activity_id: int => link to GroupActiveDay.id
-#     user_id: int => link to User.user_id
-#     """
-#     active_id = Column(Integer, ForeignKey("groupactiveday.id"), nullable=False)
-#     user_id = Column(Integer, ForeignKey("user_.id"), nullable=False)
-#
-#     def __init__(self, active_id, user_id):
-#         self.active_id = active_id
-#         self.user_id = user_id
+
+class Zoo_Calendar_Master(MixInBase, Base):
+    """ZOO_CALENDAR_MASTER table
+    this table is define of activity on zoo.
+    Id: int: key(aout)
+    ZooMasterId: int: link to ZOO_MASTER.Id
+    OpeningDateTime: timestamp: Opening date time of this zoo
+    ClosingDateTime: timestamp: Closing date time of this zoo
+    and who columns.
+    """
+    ZooMasterId = Column(Integer, ForeignKey("ZOO_MASTER.Id"), nullable=False)
+    OpeningDateTime = Column(DateTime, nullable=False)
+    ClosingDateTime = Column(DateTime, nullable=False)

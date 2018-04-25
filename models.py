@@ -17,14 +17,10 @@ class MixInBase(object):
     Id = Column(Integer, primary_key=True, autoincrement=True)
 
     # who columns
-    created_on = Column(DateTime, default=func.now())
-    created_by = Column(String, default='SYSTEM')
-    last_update_on = Column(DateTime, onupdate=func.now())
-    last_update_by = Column(String, default='SYSTEM')
-    row_count = Column(Integer, nullable=False)
-    __mapper_args__ = {
-        "version_id_col": row_count
-    }
+    createdon = Column(DateTime, default=func.now(), nullable=False)
+    createdby = Column(String, default='SYSTEM', nullable=False)
+    lastupdateon = Column(DateTime, onupdate=func.now())
+    lastupdateby = Column(String, default='SYSTEM')
 
 
 # definition data tables.

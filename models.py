@@ -47,6 +47,10 @@ class Group_Calendar(MixInBase, Base):
     GroupId = Column(Integer, ForeignKey("GROUP.Id"), nullable=False)
     ZooCalendarId = Column(Integer, ForeignKey("ZOO_CALENDAR.Id"), nullable=False)
 
+    def __init__(self, gid, zoocalendarid):
+        self.GroupId = gid
+        self.ZooCalendarId = zoocalendarid
+
 
 class Group_Master(MixInBase, Base):
     """GROUP table
@@ -74,6 +78,12 @@ class Login_Information_Master(MixInBase, Base):
     Password = Column(String, nullable=False)
     PasswordSalt = Column(String)
 
+    def __init__(self, gid, passwd, salt):
+        self.GroupId = gid
+        self.Password = passwd
+        self.PasswordSalt = salt
+    
+
 
 class Zoo_Calendar_Master(MixInBase, Base):
     """ZOO_CALENDAR_MASTER table
@@ -87,3 +97,8 @@ class Zoo_Calendar_Master(MixInBase, Base):
     ZooMasterId = Column(Integer, ForeignKey("ZOO_MASTER.Id"), nullable=False)
     OpeningDateTime = Column(DateTime, nullable=False)
     ClosingDateTime = Column(DateTime, nullable=False)
+
+    def __init__(self, zooid, opening_date, closing_date):
+        self.ZooMasterId = zooid
+        self.OpeningDateTime = opening_date
+        self.ClosingDateTime = closing_date

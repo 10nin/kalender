@@ -82,7 +82,7 @@ class Login_Information_Master(MixInBase, Base):
         self.GroupId = gid
         self.Password = passwd
         self.PasswordSalt = salt
-    
+
 
 
 class Zoo_Calendar_Master(MixInBase, Base):

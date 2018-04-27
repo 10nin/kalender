@@ -26,3 +26,8 @@ class Query:
         except Exception as e:
             return False, e
         return True, None
+
+    def get_salt(self, gid):
+        """"""
+        _s = self.SessionClass()
+        return _s.query(Login_Information_Master.PasswordSalt).filter(Login_Information_Master.GroupId == gid).all()

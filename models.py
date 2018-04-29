@@ -75,12 +75,12 @@ class Login_Information_Master(MixInBase, Base):
     * password stored hashed at SHA3-512
     """
     GroupId = Column(Integer, ForeignKey("GROUP.Id"), nullable=False)
-    Password = Column(String, nullable=False)
+    PasswordHash = Column(String, nullable=False)
     PasswordSalt = Column(String)
 
-    def __init__(self, gid, passwd, salt):
+    def __init__(self, gid, passwd_hs, salt):
         self.GroupId = gid
-        self.Password = passwd
+        self.PasswordHash = passwd_hs
         self.PasswordSalt = salt
 
 

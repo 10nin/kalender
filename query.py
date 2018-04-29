@@ -29,17 +29,38 @@ class Query:
             return False, e
         return True, None
 
-    def _get_salt(self, gid: str) -> Login_Information_Master:
+    def _get_salt(self, gid: int) -> Login_Information_Master:
         """"""
         _s = self.SessionClass()
         return _s.query(Login_Information_Master.PasswordSalt).filter(Login_Information_Master.GroupId == gid).all()
 
-    def _get_passwordhash(self, gid: str) -> str:
+    def _get_passwordhash(self, gid: int) -> str:
         _s = self.SessionClass()
         return _s.query(Login_Information_Master.Password).filter(Login_Information_Master.GroupId == gid).first()
 
-    def login(self, gid: str, passwd: str) -> bool:
+    def get_group(self, gid: int) -> Group_Master:
+        _s = self.SessionClass()
+        _s.query(Group_Master.Id, Group_Master.GroupName).filter(Group_Master.Id == gid).first()
+
+    def login(self, gid: int, passwd: str) -> bool:
         salt = self._get_salt(gid)
         current_hash = utils.get_hashval(passwd, salt)
         stored_hash = self._get_passwordhash(gid)
         return current_hash == stored_hash
+
+    def group_registration(self, gid: int, passwd: str) -> bool:
+        g = self.get_group(gid)
+        if g is not None:
+            # group is already exists
+            return False
+        else:
+            salt = utils.get_unique_str(len(Login_Information_Master.PasswordSalt))
+            hash_code = utils.get_hashval(passwd, salt)
+            info = Login_Information_Master(gid=gid, passwd_hs=hash_code, salt=salt)
+            ret = self._insert_general(info)
+            if not(ret[0]):
+                # when insert failed be throw exception.
+                raise ret[1]
+            else:
+                return True
+

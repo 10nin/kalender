@@ -29,14 +29,14 @@ class Query:
             return False, e
         return True, None
 
-    def _get_salt(self, gid: int) -> Login_Information_Master:
+    def _get_salt(self, gid: int) -> str:
         """"""
         _s = self.SessionClass()
-        return _s.query(Login_Information_Master.PasswordSalt).filter(Login_Information_Master.GroupId == gid).all()
+        return _s.query(Login_Information_Master.PasswordSalt).filter(Login_Information_Master.GroupId == gid).first()
 
     def _get_passwordhash(self, gid: int) -> str:
         _s = self.SessionClass()
-        return _s.query(Login_Information_Master.Password).filter(Login_Information_Master.GroupId == gid).first()
+        return _s.query(Login_Information_Master.PasswordHash).filter(Login_Information_Master.GroupId == gid).first()
 
     def get_group(self, gid: int) -> Group_Master:
         _s = self.SessionClass()
@@ -48,6 +48,14 @@ class Query:
         stored_hash = self._get_passwordhash(gid)
         return current_hash == stored_hash
 
+    def _group_registration(self, login_info):
+        ret = self._insert_general(login_info)
+        if not (ret[0]):
+            # when insert failed be throw exception.
+            raise ret[1]
+        else:
+            return True
+
     def group_registration(self, gid: int, passwd: str) -> bool:
         g = self.get_group(gid)
         if g is not None:
@@ -57,10 +65,8 @@ class Query:
             salt = utils.get_unique_str(len(Login_Information_Master.PasswordSalt))
             hash_code = utils.get_hashval(passwd, salt)
             info = Login_Information_Master(gid=gid, passwd_hs=hash_code, salt=salt)
-            ret = self._insert_general(info)
-            if not(ret[0]):
-                # when insert failed be throw exception.
-                raise ret[1]
-            else:
-                return True
+            return self._group_registration(info)
 
+    def get_all_zoo(self):
+        _s = self.SessionClass()
+        return _s.query(Zoo_Master.Id, Zoo_Master.ZooName).all()

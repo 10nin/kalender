@@ -64,6 +64,45 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: group_calendar; Type: TABLE; Schema: kalendar; Owner: postgres
+--
+
+CREATE TABLE kalendar.group_calendar (
+    id integer NOT NULL,
+    groupid integer NOT NULL,
+    zoocalendarid integer NOT NULL,
+    createdon timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    createdby character varying(50) DEFAULT 'SYSTEM'::character varying NOT NULL,
+    lastupdateon timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    lastupdateby character varying(50) DEFAULT 'SYSTEM'::character varying
+);
+
+
+ALTER TABLE kalendar.group_calendar OWNER TO postgres;
+
+--
+-- Name: group_calendar_id_seq; Type: SEQUENCE; Schema: kalendar; Owner: postgres
+--
+
+CREATE SEQUENCE kalendar.group_calendar_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE kalendar.group_calendar_id_seq OWNER TO postgres;
+
+--
+-- Name: group_calendar_id_seq; Type: SEQUENCE OWNED BY; Schema: kalendar; Owner: postgres
+--
+
+ALTER SEQUENCE kalendar.group_calendar_id_seq OWNED BY kalendar.group_calendar.id;
+
+
+--
 -- Name: group_master; Type: TABLE; Schema: kalendar; Owner: postgres
 --
 
@@ -142,6 +181,46 @@ ALTER SEQUENCE kalendar.login_infromation_master_id_seq OWNED BY kalendar.login_
 
 
 --
+-- Name: zoo_calendar_master; Type: TABLE; Schema: kalendar; Owner: postgres
+--
+
+CREATE TABLE kalendar.zoo_calendar_master (
+    id integer NOT NULL,
+    zoomasterid integer NOT NULL,
+    openingdatetime timestamp without time zone NOT NULL,
+    closingdatetime timestamp without time zone NOT NULL,
+    createdon timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    createdby character varying(50) DEFAULT 'SYSTEM'::character varying NOT NULL,
+    lastupdateon timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    lastupdateby character varying(50) DEFAULT 'SYSTEM'::character varying
+);
+
+
+ALTER TABLE kalendar.zoo_calendar_master OWNER TO postgres;
+
+--
+-- Name: zoo_calendar_master_id_seq; Type: SEQUENCE; Schema: kalendar; Owner: postgres
+--
+
+CREATE SEQUENCE kalendar.zoo_calendar_master_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE kalendar.zoo_calendar_master_id_seq OWNER TO postgres;
+
+--
+-- Name: zoo_calendar_master_id_seq; Type: SEQUENCE OWNED BY; Schema: kalendar; Owner: postgres
+--
+
+ALTER SEQUENCE kalendar.zoo_calendar_master_id_seq OWNED BY kalendar.zoo_calendar_master.id;
+
+
+--
 -- Name: zoo_master; Type: TABLE; Schema: kalendar; Owner: postgres
 --
 
@@ -180,6 +259,13 @@ ALTER SEQUENCE kalendar.zoo_master_id_seq OWNED BY kalendar.zoo_master.id;
 
 
 --
+-- Name: group_calendar id; Type: DEFAULT; Schema: kalendar; Owner: postgres
+--
+
+ALTER TABLE ONLY kalendar.group_calendar ALTER COLUMN id SET DEFAULT nextval('kalendar.group_calendar_id_seq'::regclass);
+
+
+--
 -- Name: group_master id; Type: DEFAULT; Schema: kalendar; Owner: postgres
 --
 
@@ -194,10 +280,25 @@ ALTER TABLE ONLY kalendar.login_infromation_master ALTER COLUMN id SET DEFAULT n
 
 
 --
+-- Name: zoo_calendar_master id; Type: DEFAULT; Schema: kalendar; Owner: postgres
+--
+
+ALTER TABLE ONLY kalendar.zoo_calendar_master ALTER COLUMN id SET DEFAULT nextval('kalendar.zoo_calendar_master_id_seq'::regclass);
+
+
+--
 -- Name: zoo_master id; Type: DEFAULT; Schema: kalendar; Owner: postgres
 --
 
 ALTER TABLE ONLY kalendar.zoo_master ALTER COLUMN id SET DEFAULT nextval('kalendar.zoo_master_id_seq'::regclass);
+
+
+--
+-- Data for Name: group_calendar; Type: TABLE DATA; Schema: kalendar; Owner: postgres
+--
+
+COPY kalendar.group_calendar (id, groupid, zoocalendarid, createdon, createdby, lastupdateon, lastupdateby) FROM stdin;
+\.
 
 
 --
@@ -217,11 +318,26 @@ COPY kalendar.login_infromation_master (id, groupid, passwordhash, passwordsalt,
 
 
 --
+-- Data for Name: zoo_calendar_master; Type: TABLE DATA; Schema: kalendar; Owner: postgres
+--
+
+COPY kalendar.zoo_calendar_master (id, zoomasterid, openingdatetime, closingdatetime, createdon, createdby, lastupdateon, lastupdateby) FROM stdin;
+\.
+
+
+--
 -- Data for Name: zoo_master; Type: TABLE DATA; Schema: kalendar; Owner: postgres
 --
 
 COPY kalendar.zoo_master (id, zooname, createdon, createdby, latestupdateon, latestupdateby) FROM stdin;
 \.
+
+
+--
+-- Name: group_calendar_id_seq; Type: SEQUENCE SET; Schema: kalendar; Owner: postgres
+--
+
+SELECT pg_catalog.setval('kalendar.group_calendar_id_seq', 1, false);
 
 
 --
@@ -239,10 +355,25 @@ SELECT pg_catalog.setval('kalendar.login_infromation_master_id_seq', 1, false);
 
 
 --
+-- Name: zoo_calendar_master_id_seq; Type: SEQUENCE SET; Schema: kalendar; Owner: postgres
+--
+
+SELECT pg_catalog.setval('kalendar.zoo_calendar_master_id_seq', 1, false);
+
+
+--
 -- Name: zoo_master_id_seq; Type: SEQUENCE SET; Schema: kalendar; Owner: postgres
 --
 
 SELECT pg_catalog.setval('kalendar.zoo_master_id_seq', 1, false);
+
+
+--
+-- Name: group_calendar group_calendar_pkey; Type: CONSTRAINT; Schema: kalendar; Owner: postgres
+--
+
+ALTER TABLE ONLY kalendar.group_calendar
+    ADD CONSTRAINT group_calendar_pkey PRIMARY KEY (id);
 
 
 --
@@ -259,6 +390,14 @@ ALTER TABLE ONLY kalendar.group_master
 
 ALTER TABLE ONLY kalendar.login_infromation_master
     ADD CONSTRAINT login_infromation_master_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: zoo_calendar_master zoo_calendar_master_pkey; Type: CONSTRAINT; Schema: kalendar; Owner: postgres
+--
+
+ALTER TABLE ONLY kalendar.zoo_calendar_master
+    ADD CONSTRAINT zoo_calendar_master_pkey PRIMARY KEY (id);
 
 
 --

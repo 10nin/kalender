@@ -29,7 +29,7 @@ class Query:
         return True, None
 
     def _get_salt(self, gid: int) -> str:
-        """"""
+        """return the salt value of gid."""
         _s = self.SessionClass()
         return _s.query(Login_Information_Master.PasswordSalt).filter(Login_Information_Master.GroupId == gid).first()
 
@@ -47,7 +47,7 @@ class Query:
         stored_hash = self._get_passwordhash(gid)
         return current_hash == stored_hash
 
-    def _group_registration(self, login_info):
+    def _login_registration(self, login_info):
         ret = self._insert_general(login_info)
         if not (ret[0]):
             # when insert failed be throw exception.
@@ -55,7 +55,7 @@ class Query:
         else:
             return True
 
-    def group_registration(self, gid: int, passwd: str) -> bool:
+    def group_login_registration(self, gid: int, passwd: str) -> bool:
         g = self.get_group(gid)
         if g is not None:
             # group is already exists
@@ -64,7 +64,15 @@ class Query:
             salt = utils.get_unique_str(len(Login_Information_Master.PasswordSalt))
             hash_code = utils.get_hashval(passwd, salt)
             info = Login_Information_Master(gid=gid, passwd_hs=hash_code, salt=salt)
-            return self._group_registration(info)
+            return self._login_registration(info)
+
+    def group_registration(self, group_name):
+        if len(group_name) > Group_Master.GroupName.type.length:
+            return False
+        else:
+            g = Group_Master(group_name=group_name)
+            # ignore exception when insert.
+            return self._insert_general(g)[0]
 
     def get_all_zoo(self):
         _s = self.SessionClass()

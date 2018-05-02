@@ -18,9 +18,9 @@ class MixInBase(object):
 
     # who columns
     createdon = Column(DateTime, default=func.now(), nullable=False)
-    createdby = Column(String, default='SYSTEM', nullable=False)
+    createdby = Column(String(50), default='SYSTEM', nullable=False)
     lastupdateon = Column(DateTime, onupdate=func.now())
-    lastupdateby = Column(String, default='SYSTEM')
+    lastupdateby = Column(String(50), default='SYSTEM')
 
 
 # definition data tables.
@@ -31,7 +31,7 @@ class Zoo_Master(MixInBase, Base):
     ZooName: string: name of this zoo
     and who columns.
     """
-    ZooName = Column(String)
+    ZooName = Column(String(200))
 
     def __init__(self, zooname):
         self.ZooName = zooname
@@ -59,7 +59,7 @@ class Group_Master(MixInBase, Base):
     GroupName: string: name of this group.
     and who columns.
     """
-    GroupName = Column(String)
+    GroupName = Column(String(200))
 
     def __init__(self, group_name):
         self.GroupName = group_name
@@ -75,8 +75,8 @@ class Login_Information_Master(MixInBase, Base):
     * password stored hashed at SHA3-512
     """
     GroupId = Column(Integer, ForeignKey("GROUP.Id"), nullable=False)
-    PasswordHash = Column(String, nullable=False)
-    PasswordSalt = Column(String)
+    PasswordHash = Column(String(200), nullable=False)
+    PasswordSalt = Column(String(200))
 
     def __init__(self, gid, passwd_hs, salt):
         self.GroupId = gid

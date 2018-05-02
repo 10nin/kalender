@@ -416,6 +416,30 @@ CREATE UNIQUE INDEX zoo_master_id_uindex ON kalendar.zoo_master USING btree (id)
 
 
 --
+-- Name: group_calendar group_calendar_group_master_fk; Type: FK CONSTRAINT; Schema: kalendar; Owner: postgres
+--
+
+ALTER TABLE ONLY kalendar.group_calendar
+    ADD CONSTRAINT group_calendar_group_master_fk FOREIGN KEY (groupid) REFERENCES kalendar.group_master(id);
+
+
+--
+-- Name: login_infromation_master login_infromation_master_group_master_id_fk; Type: FK CONSTRAINT; Schema: kalendar; Owner: postgres
+--
+
+ALTER TABLE ONLY kalendar.login_infromation_master
+    ADD CONSTRAINT login_infromation_master_group_master_id_fk FOREIGN KEY (groupid) REFERENCES kalendar.group_master(id);
+
+
+--
+-- Name: zoo_calendar_master zoo_calendar_master_zoo_master_fk; Type: FK CONSTRAINT; Schema: kalendar; Owner: postgres
+--
+
+ALTER TABLE ONLY kalendar.zoo_calendar_master
+    ADD CONSTRAINT zoo_calendar_master_zoo_master_fk FOREIGN KEY (zoomasterid) REFERENCES kalendar.zoo_master(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 

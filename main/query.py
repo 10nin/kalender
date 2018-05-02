@@ -1,9 +1,8 @@
 # coding=utf-8
-import utils
-from sqlalchemy import create_engine, func, insert
+from main import utils
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
-from models import *
+from main.models import *
 
 
 

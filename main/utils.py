@@ -16,7 +16,7 @@ def get_hashval(passwd: str, salt: str):
     hs = sha3_512()
     p = passwd.encode('utf-8') + salt.encode('utf-8')
     hs.update(p)
-    return hs.hexdigest()
+    return hs.hexdigest().upper()
 
 def get_unique_str(length: int) -> str:
     return uuid4().hex[:length]

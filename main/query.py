@@ -5,7 +5,6 @@ from sqlalchemy.orm import sessionmaker
 from main.models import *
 
 
-
 class Query:
     """Query collection class"""
 

@@ -39,7 +39,7 @@ class Query:
 
     def get_group(self, gid: int) -> Group_Master:
         _s = self.SessionClass()
-        _s.query(Group_Master.Id, Group_Master.GroupName).filter(Group_Master.Id == gid).first()
+        return _s.query(Group_Master.Id, Group_Master.GroupName).filter(Group_Master.Id == gid).first()
 
     def login(self, gid: int, passwd: str) -> bool:
         salt = self._get_salt(gid)
@@ -73,6 +73,29 @@ class Query:
             g = Group_Master(group_name=group_name)
             # ignore exception when insert.
             return self._insert_general(g)[0]
+
+    def get_zoo(self, zid: int) -> Zoo_Master:
+        _s = self.SessionClass()
+        return _s.query(Zoo_Master.Id, Zoo_Master.ZooName).filter(Zoo_Master.Id == zid).all()
+
+    def set_zoo_calendar(self, zid: int, opening: DateTime, closing: DateTime):
+        if self.get_zoo(zid) is not None:
+            c = Zoo_Calendar_Master(zid, opening, closing)
+            return self._insert_general(c)[0]
+        return False
+
+    def get_zoo_calenadr(self, calid):
+        _s = self.SessionClass()
+        return _s.query(Zoo_Calendar_Master.Id,
+                        Zoo_Calendar_Master.ZooMasterId,
+                        Zoo_Calendar_Master.OpeningDateTime,
+                        Zoo_Calendar_Master.ClosingDateTime).filter(Zoo_Calendar_Master.Id == calid).all()
+
+    def set_group_calendar(self, calid: int, gid: int):
+        if (self.get_group(gid) is not None) and (self.get_zoo_calenadr(calid) is not None):
+            c = Group_Calendar(gid, calid)
+            return self._insert_general(c)[0]
+        return False
 
     def get_all_zoo(self):
         _s = self.SessionClass()

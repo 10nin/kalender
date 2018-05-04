@@ -33,14 +33,27 @@ class Query:
         return _s.query(Login_Information_Master.PasswordSalt).filter(Login_Information_Master.GroupId == gid).first()
 
     def _get_passwordhash(self, gid: int) -> str:
+        """get password hash value from database."""
         _s = self.SessionClass()
         return _s.query(Login_Information_Master.PasswordHash).filter(Login_Information_Master.GroupId == gid).first()
 
     def get_group(self, gid: int) -> Group_Master:
+        """get a group of match of gid."""
         _s = self.SessionClass()
         return _s.query(Group_Master.Id, Group_Master.GroupName).filter(Group_Master.Id == gid).first()
 
-    def login(self, gid: int, passwd: str) -> bool:
+    def get_group_by_group_name(self, group_name: str) -> Group_Master:
+        """get groups of match of group_name."""
+        _s = self.SessionClass()
+        return _s.query(Group_Master.Id, Group_Master.GroupName).filter(Group_Master.GroupName == group_name).all()
+
+    def password_success(self, gid: int, passwd: str) -> bool:
+        """
+        login hash value check for gid and password pair.
+        :param gid: the target group id.
+        :param passwd: target raw password string.
+        :return: if login is success then True, otherwise False.
+        """
         salt = self._get_salt(gid)
         current_hash = utils.get_hashval(passwd, salt)
         stored_hash = self._get_passwordhash(gid)
@@ -91,11 +104,18 @@ class Query:
                         Zoo_Calendar_Master.ClosingDateTime).filter(Zoo_Calendar_Master.Id == calid).all()
 
     def set_group_calendar(self, calid: int, gid: int):
+        """insert date time of group activity to GROUP_CALENDAR table."""
         if (self.get_group(gid) is not None) and (self.get_zoo_calenadr(calid) is not None):
             c = Group_Calendar(gid, calid)
             return self._insert_general(c)[0]
         return False
 
     def get_all_zoo(self):
+        """get all zoo from ZOO_MASTER table."""
         _s = self.SessionClass()
         return _s.query(Zoo_Master.Id, Zoo_Master.ZooName).all()
+
+    def get_all_groups(self):
+        """get all groups from GROUP_MASTER table."""
+        _s = self.SessionClass()
+        return _s.query(Group_Master.Id, Group_Master.GroupName).all()

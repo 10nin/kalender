@@ -5,6 +5,7 @@ from bottle import Bottle, request, HTTPResponse, static_file, jinja2_template a
 
 app = Bottle()
 
+
 @app.routes('/list/<request_date:re:\d{6}')
 def show_monthly_schedule(request_date=''):
     """List of 'requestdate' month schedule.

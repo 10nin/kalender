@@ -1,7 +1,7 @@
 # coding=utf-8
 
-import re
 from bottle import Bottle, request, HTTPResponse, static_file, jinja2_template as template
+from main import  utils
 
 app = Bottle()
 
@@ -11,12 +11,17 @@ def show_root():
     return template("calendar.html")
 
 
-@app.route("/list/<request_date:re:\d{6}")
+@app.route("/list/<request_date:re:\d{6}>")
 def show_monthly_schedule(request_date=''):
-    """List of 'requestdate' month schedule.
+    """List of 'request_date' month schedule.
     :arg request_date: request date information of YYYYMM formatted string.
     :return request date schedule page."""
-    pass
+
+    if not utils.valid_date(request_date):
+        # if date invalid then return bad request error.
+        return HTTPResponse(status=400, body='Request date was invalid. it accept between 201801 and 201912.')
+
+    return template("calendar.html")
 
 
 # ---- Static Routes ----

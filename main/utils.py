@@ -2,6 +2,7 @@
 
 # Generic utility functions.
 import re
+from calendar import Calendar
 from hashlib import sha3_512
 from uuid import uuid4
 
@@ -40,3 +41,14 @@ def valid_date(d):
     if re.match(valid_month, d[4:6]) is None:  # validate month
         return False
     return True
+
+def generate_days(year, month):
+    # week is start by sunday
+    cal = Calendar(firstweekday=6)
+    ret = list()
+    for c in cal.itermonthdates(year, month):
+        if c.month == month:
+            ret.append(c.day)
+        else:
+            ret.append("")
+    return ret

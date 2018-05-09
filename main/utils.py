@@ -57,3 +57,14 @@ def generate_days(year, month):
         else:
             ret.append("")
     return ret
+
+
+def split_request_date(request_date: str) -> (int, int):
+    """
+    split request_date to year and month
+    :param request_date: split target date on 'YYYYMM' formatted string.
+    :return: (year, month) tuple.
+    """
+    year = int(request_date[:4])
+    month = int(request_date[4:6])
+    return year, month

@@ -31,3 +31,12 @@ class TestValid_date(TestCase):
             self.assertTrue(utils.valid_date(c))
         for i in invalid_date:
             self.assertFalse(utils.valid_date(i))
+
+
+class TestSplit_request_date(TestCase):
+    def test_split_request_date(self):
+        request_date = '201805'
+        correct_year = 2018
+        correct_month = 5
+        self.assertEqual(utils.split_request_date(request_date)[0], correct_year)
+        self.assertEqual(utils.split_request_date(request_date)[1], correct_month)

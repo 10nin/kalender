@@ -15,3 +15,10 @@ td, th {
 th {
 	background: #abe6f0;
 }
+
+.control_button {
+    text-align: center;
+    margin: 0 auto;
+    font-weight: bold;
+    font-size: xx-large;
+}

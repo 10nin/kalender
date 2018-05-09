@@ -8,7 +8,7 @@ app = Bottle()
 
 @app.route("/")
 def show_root():
-    return template("calendar.html")
+    return template("calendar.html", month=6)
 
 
 @app.route("/list/<request_date:re:\d{6}>")
@@ -23,7 +23,7 @@ def show_monthly_schedule(request_date=''):
 
     year, month = utils.split_request_date(request_date)
     days = utils.generate_days(year, month)
-    
+
     # generate request_date days
     return template("calendar.html")
 

@@ -56,7 +56,8 @@ def generate_days(year, month):
             ret.append(c.day)
         else:
             ret.append("")
-    return ret
+    # return zipped on 7 days
+    return zip(*[iter(ret)]*7)
 
 
 def split_request_date(request_date: str) -> (int, int):

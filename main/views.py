@@ -25,7 +25,7 @@ def show_monthly_schedule(request_date=''):
     days = utils.generate_days(year, month)
 
     # generate request_date days
-    return template("calendar.html")
+    return template("calendar.html", month=month, days=days)
 
 
 # ---- Static Routes ----

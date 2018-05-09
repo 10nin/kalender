@@ -21,3 +21,13 @@ class TestGet_unique_str(TestCase):
     def test_get_unique_str(self):
         res = utils.get_unique_str(10)
         self.assertEqual(len(res), 10)
+
+
+class TestValid_date(TestCase):
+    def test_valid_date(self):
+        correct_date = ['201805', '099901', '199910', '200007', '211912', '203903']
+        invalid_date = ['', '-12345', '201813', '200000', 'ABCDEF', '038038']
+        for c in correct_date:
+            self.assertTrue(utils.valid_date(c))
+        for i in invalid_date:
+            self.assertFalse(utils.valid_date(i))

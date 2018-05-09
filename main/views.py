@@ -22,7 +22,6 @@ def show_monthly_schedule(request_date=''):
         return HTTPResponse(status=400, body='Request date was invalid. it accept between 201801 and 201912.')
 
     # generate request_date days
-
     return template("calendar.html")
 
 

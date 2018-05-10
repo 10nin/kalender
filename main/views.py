@@ -1,9 +1,11 @@
 # coding=utf-8
 
 from bottle import Bottle, redirect, request, HTTPResponse, static_file, jinja2_template as template
+from bottle_log import LoggingPlugin
 from main import utils
 
 app = Bottle()
+app.install(LoggingPlugin(app.config))
 
 
 @app.route("/")
@@ -35,15 +37,19 @@ def show_monthly_schedule(request_date=''):
 
     if not utils.valid_date(request_date):
         # if date invalid then return bad request error.
+        # TODO: change error message
         return HTTPResponse(status=400, body='Request date was invalid. it accept between 201801 and 201912.')
 
     year, month = utils.split_request_date(request_date)
     days = utils.generate_days(year, month)
 
     # generate request_date days
+    # TODO: implement prev month/next month.
+    # TODO: implement show active groups.
     return template("calendar.html", month=month, days=days)
 
-
+# TODO: implement schedule registration route.
+# TODO: implement help page
 # ---- Static Routes ----
 @app.route("/static/css/<file_path:re:.*\.css>")
 def css(file_path):

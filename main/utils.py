@@ -6,6 +6,7 @@ from calendar import Calendar
 from datetime import datetime
 from hashlib import sha3_512
 from uuid import uuid4
+from dateutil.relativedelta import relativedelta
 
 
 def normalize_data(s: str) -> str:
@@ -70,3 +71,10 @@ def get_current_date() -> str:
     :return: current year and month
     """
     return datetime.strftime(datetime.now(), '%Y%m')
+
+
+def get_prev_and_next_month(year: int, month: int) -> (str, str):
+    dt = datetime(year=year, month=month, day=1)
+    prev_month = dt - relativedelta(months=1)
+    next_month = dt + relativedelta(months=1)
+    return prev_month.strftime('%Y%m'), next_month.strftime('%Y%m')

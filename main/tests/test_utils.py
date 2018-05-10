@@ -40,3 +40,31 @@ class TestSplit_request_date(TestCase):
         correct_month = 5
         self.assertEqual(utils.split_request_date(request_date)[0], correct_year)
         self.assertEqual(utils.split_request_date(request_date)[1], correct_month)
+
+
+class TestGet_prev_and_next_month(TestCase):
+    def test_get_prev_and_next_month(self):
+        year1 = 2018
+        month1 = 5
+        prev1 = '201804'
+        next1 = '201806'
+        ret = utils.get_prev_and_next_month(year1, month1)
+        self.assertEqual(ret[0], prev1)
+        self.assertEqual(ret[1], next1)
+
+        year2 = 2018
+        month2 = 12
+        prev2 = '201811'
+        next2 = '201901'
+        ret = utils.get_prev_and_next_month(year2, month2)
+        self.assertEqual(ret[0], prev2)
+        self.assertEqual(ret[1], next2)
+
+        year3 = 2018
+        month3 = 1
+        prev3 = '201712'
+        next3 = '201802'
+        ret = utils.get_prev_and_next_month(year3, month3)
+        self.assertEqual(ret[0], prev3)
+        self.assertEqual(ret[1], next3)
+

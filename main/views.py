@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from bottle import Bottle, redirect, request, HTTPResponse, static_file, jinja2_template as template
-from main import  utils
+from main import utils
 
 app = Bottle()
 
@@ -10,18 +10,28 @@ app = Bottle()
 def show_root():
     return template("login.html")
 
+
 @app.route("/", method="POST")
 def login_proc():
     group_name = request.forms.get("group_name")
     password = request.forms.get("pass")
-    current_date = utils.get_current_date()
-    redirect("/list/" + current_date)
+    # TODO: add login check
+    redirect("/menu")
 
+
+@app.route("/menu")
+def show_main_menu():
+    return template("menu.html")
+
+
+@app.route("/list")
 @app.route("/list/<request_date:re:\d{6}>")
 def show_monthly_schedule(request_date=''):
     """List of 'request_date' month schedule.
     :arg request_date: request date information of YYYYMM formatted string.
     :return request date schedule page."""
+    if len(request_date) == 0:
+        request_date = utils.get_current_date()
 
     if not utils.valid_date(request_date):
         # if date invalid then return bad request error.

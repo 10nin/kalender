@@ -10,24 +10,24 @@
 <table>
 	<tbody>
 		<tr>
-			<th colspan="2" class="sunday">日</th>
-			<th colspan="2">月</th>
-			<th colspan="2">火</th>
-			<th colspan="2">水</th>
-			<th colspan="2">木</th>
-			<th colspan="2">金</th>
-			<th colspan="2" class="saturday">土</th>
+			<th colspan="2" class="cell_head sunday">日</th>
+			<th colspan="2" class="cell_head">月</th>
+            <th colspan="2" class="cell_head">火</th>
+			<th colspan="2" class="cell_head">水</th>
+			<th colspan="2" class="cell_head">木</th>
+			<th colspan="2" class="cell_head">金</th>
+			<th colspan="2" class="cell_head saturday">土</th>
 		</tr>
         {% for w in days %}
 		<tr>
             {% for d in w %}
-			<td colspan="2" class="day_cell">{{d}}</td>
+			<td colspan="2" class="cell_base day_cell">{{d}}</td>
             {% endfor %}
 		</tr>
         <tr>
             {% for _ in w %}
-            <td class="grp_cell">&nbsp;</td>
-            <td class="grp_cell">&nbsp;</td>
+            <td class="cell_base grp_cell_left">&nbsp;</td>
+            <td class="cell_base grp_cell_right">&nbsp;</td>
             {% endfor %}
         </tr>
         {% endfor %}

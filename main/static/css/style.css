@@ -4,7 +4,6 @@ table {
     width: 80%;
 }
 table , td, th {
-    border: 1px solid #595959;
     border-collapse: collapse;
 }
 td, th {
@@ -21,9 +20,22 @@ th {
     font-weight: bold;
     font-size: xx-large;
 }
+.cell_base {
+    border-width: 1px;
+    border-color: #595959;
+}
+.cell_head {
+    border: solid 1px #595959;
+}
 .day_cell {
     height: 2em;
+    border-style: solid solid dotted;
 }
-.grp_cell {
+.grp_cell_left {
     height: 1em;
+    border-style: dotted dotted solid solid;
+}
+.grp_cell_right {
+    height: 1em;
+    border-style: dotted solid solid dotted;
 }

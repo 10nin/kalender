@@ -8,7 +8,7 @@ app = Bottle()
 
 @app.route("/")
 def show_root():
-    return template("calendar.html", month=6)
+    return template("login.html")
 
 
 @app.route("/list/<request_date:re:\d{6}>")

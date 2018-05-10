@@ -14,6 +14,9 @@ td, th {
 th {
 	background: #abe6f0;
 }
+.footer_note {
+    font-size: x-small;
+}
 .control_button {
     text-align: center;
     margin: 0 auto;

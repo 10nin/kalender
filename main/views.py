@@ -42,11 +42,12 @@ def show_monthly_schedule(request_date=''):
 
     year, month = utils.split_request_date(request_date)
     days = utils.generate_days(year, month)
+    prev_month, next_month = utils.get_prev_and_next_month(year, month)
 
     # generate request_date days
     # TODO: implement prev month/next month.
     # TODO: implement show active groups.
-    return template("calendar.html", month=month, days=days)
+    return template("calendar.html", year=year, prev_month=prev_month, month=month, next_month=next_month, days=days)
 
 # TODO: implement schedule registration route.
 # TODO: implement help page

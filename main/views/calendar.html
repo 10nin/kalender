@@ -21,7 +21,13 @@
         {% for w in days %}
 		<tr>
             {% for d in w %}
-			<td colspan="2" class="cell_base day_cell">{{d}}</td>
+			<td colspan="2" class="cell_base day_cell">
+                {% if d != 0 %}
+                {{d}}
+                {% else %}
+                &nbsp;
+                {% endif %}
+            </td>
             {% endfor %}
 		</tr>
         <tr>

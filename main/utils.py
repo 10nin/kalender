@@ -50,14 +50,7 @@ def valid_date(d: str) -> bool:
 def generate_days(year: int, month: int):
     # week is start by sunday
     cal = Calendar(firstweekday=6)
-    ret = list()
-    for c in cal.itermonthdates(year, month):
-        if c.month == month:
-            ret.append(c.day)
-        else:
-            ret.append("")
-    # return zipped on 7 days
-    return zip(*[iter(ret)]*7)
+    return cal.monthdayscalendar(year, month)
 
 
 def split_request_date(request_date: str) -> (int, int):

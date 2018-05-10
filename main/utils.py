@@ -8,7 +8,7 @@ from hashlib import sha3_512
 from uuid import uuid4
 
 
-def normalize_data(s: str):
+def normalize_data(s: str) -> str:
     """Normalize unicode string
     :arg s: target string
     :return normalized string
@@ -17,7 +17,7 @@ def normalize_data(s: str):
     return normalize('NFKC', s)
 
 
-def get_hashval(passwd: str, salt: str):
+def get_hashval(passwd: str, salt: str) -> str:
     hs = sha3_512()
     p = passwd.encode('utf-8') + salt.encode('utf-8')
     hs.update(p)
@@ -28,7 +28,7 @@ def get_unique_str(length: int) -> str:
     return uuid4().hex[:length]
 
 
-def valid_date(d):
+def valid_date(d: str) -> bool:
     """
     validate date format of d
     :param d: target datetime it expect YYYYMM
@@ -47,7 +47,7 @@ def valid_date(d):
     return True
 
 
-def generate_days(year, month):
+def generate_days(year: int, month: int):
     # week is start by sunday
     cal = Calendar(firstweekday=6)
     ret = list()
@@ -69,3 +69,11 @@ def split_request_date(request_date: str) -> (int, int):
     year = int(request_date[:4])
     month = int(request_date[4:6])
     return year, month
+
+
+def get_current_date() -> str:
+    """
+    return current date formatted YYYYMM
+    :return: current year and month
+    """
+    return datetime.strftime(datetime.now(), '%Y%m')

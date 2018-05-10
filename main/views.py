@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from bottle import Bottle, request, HTTPResponse, static_file, jinja2_template as template
+from bottle import Bottle, redirect, request, HTTPResponse, static_file, jinja2_template as template
 from main import  utils
 
 app = Bottle()
@@ -10,6 +10,12 @@ app = Bottle()
 def show_root():
     return template("login.html")
 
+@app.route("/", method="POST")
+def login_proc():
+    group_name = request.forms.get("group_name")
+    password = request.forms.get("pass")
+    current_date = utils.get_current_date()
+    redirect("/list/" + current_date)
 
 @app.route("/list/<request_date:re:\d{6}>")
 def show_monthly_schedule(request_date=''):

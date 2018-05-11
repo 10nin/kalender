@@ -152,7 +152,8 @@ CREATE TABLE kalendar.login_infromation_master (
     createdon timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     createdby character varying(50) DEFAULT 'SYSTEM'::character varying NOT NULL,
     lastupdateon timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    lastupdateby character varying(50) DEFAULT 'SYSTEM'::character varying
+    lastupdateby character varying(50) DEFAULT 'SYSTEM'::character varying,
+    roleid integer
 );
 
 
@@ -178,6 +179,44 @@ ALTER TABLE kalendar.login_infromation_master_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE kalendar.login_infromation_master_id_seq OWNED BY kalendar.login_infromation_master.id;
+
+
+--
+-- Name: role; Type: TABLE; Schema: kalendar; Owner: postgres
+--
+
+CREATE TABLE kalendar.role (
+    id integer NOT NULL,
+    rolename character varying(200) NOT NULL,
+    createdon timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    createdby character varying(50) DEFAULT 'SYSTEM'::character varying,
+    latestupdateon timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    latestupdateby character varying(50) DEFAULT 'SYSTEM'::character varying
+);
+
+
+ALTER TABLE kalendar.role OWNER TO postgres;
+
+--
+-- Name: role_id_seq; Type: SEQUENCE; Schema: kalendar; Owner: postgres
+--
+
+CREATE SEQUENCE kalendar.role_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE kalendar.role_id_seq OWNER TO postgres;
+
+--
+-- Name: role_id_seq; Type: SEQUENCE OWNED BY; Schema: kalendar; Owner: postgres
+--
+
+ALTER SEQUENCE kalendar.role_id_seq OWNED BY kalendar.role.id;
 
 
 --
@@ -280,6 +319,13 @@ ALTER TABLE ONLY kalendar.login_infromation_master ALTER COLUMN id SET DEFAULT n
 
 
 --
+-- Name: role id; Type: DEFAULT; Schema: kalendar; Owner: postgres
+--
+
+ALTER TABLE ONLY kalendar.role ALTER COLUMN id SET DEFAULT nextval('kalendar.role_id_seq'::regclass);
+
+
+--
 -- Name: zoo_calendar_master id; Type: DEFAULT; Schema: kalendar; Owner: postgres
 --
 
@@ -313,7 +359,15 @@ COPY kalendar.group_master (id, groupname, createdon, createdby, lastupdateon, l
 -- Data for Name: login_infromation_master; Type: TABLE DATA; Schema: kalendar; Owner: postgres
 --
 
-COPY kalendar.login_infromation_master (id, groupid, passwordhash, passwordsalt, createdon, createdby, lastupdateon, lastupdateby) FROM stdin;
+COPY kalendar.login_infromation_master (id, groupid, passwordhash, passwordsalt, createdon, createdby, lastupdateon, lastupdateby, roleid) FROM stdin;
+\.
+
+
+--
+-- Data for Name: role; Type: TABLE DATA; Schema: kalendar; Owner: postgres
+--
+
+COPY kalendar.role (id, rolename, createdon, createdby, latestupdateon, latestupdateby) FROM stdin;
 \.
 
 
@@ -355,6 +409,13 @@ SELECT pg_catalog.setval('kalendar.login_infromation_master_id_seq', 1, false);
 
 
 --
+-- Name: role_id_seq; Type: SEQUENCE SET; Schema: kalendar; Owner: postgres
+--
+
+SELECT pg_catalog.setval('kalendar.role_id_seq', 1, false);
+
+
+--
 -- Name: zoo_calendar_master_id_seq; Type: SEQUENCE SET; Schema: kalendar; Owner: postgres
 --
 
@@ -393,6 +454,14 @@ ALTER TABLE ONLY kalendar.login_infromation_master
 
 
 --
+-- Name: role role_pkey; Type: CONSTRAINT; Schema: kalendar; Owner: postgres
+--
+
+ALTER TABLE ONLY kalendar.role
+    ADD CONSTRAINT role_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: zoo_calendar_master zoo_calendar_master_pkey; Type: CONSTRAINT; Schema: kalendar; Owner: postgres
 --
 
@@ -406,6 +475,13 @@ ALTER TABLE ONLY kalendar.zoo_calendar_master
 
 ALTER TABLE ONLY kalendar.zoo_master
     ADD CONSTRAINT zoo_master_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: role_id_uindex; Type: INDEX; Schema: kalendar; Owner: postgres
+--
+
+CREATE UNIQUE INDEX role_id_uindex ON kalendar.role USING btree (id);
 
 
 --
@@ -429,6 +505,14 @@ ALTER TABLE ONLY kalendar.group_calendar
 
 ALTER TABLE ONLY kalendar.login_infromation_master
     ADD CONSTRAINT login_infromation_master_group_master_id_fk FOREIGN KEY (groupid) REFERENCES kalendar.group_master(id);
+
+
+--
+-- Name: login_infromation_master login_infromation_master_role_id_fk; Type: FK CONSTRAINT; Schema: kalendar; Owner: postgres
+--
+
+ALTER TABLE ONLY kalendar.login_infromation_master
+    ADD CONSTRAINT login_infromation_master_role_id_fk FOREIGN KEY (roleid) REFERENCES kalendar.role(id);
 
 
 --

@@ -10,7 +10,7 @@ app.install(LoggingPlugin(app.config))
 
 @app.route("/")
 def show_root():
-    return template("login.html")
+    return template("login.html", title="Kalendar - ログイン")
 
 
 @app.route("/", method="POST")
@@ -23,7 +23,7 @@ def login_proc():
 
 @app.route("/menu")
 def show_main_menu():
-    return template("menu.html")
+    return template("menu.html", title="Kalendar - メインメニュー")
 
 
 @app.route("/list")
@@ -44,10 +44,12 @@ def show_monthly_schedule(request_date=''):
     days = utils.generate_days(year, month)
     prev_month, next_month = utils.get_prev_and_next_month(year, month)
 
+    title = f"Kalendar - {year}年{month}月の予定"
     # generate request_date days
     # TODO: implement prev month/next month.
     # TODO: implement show active groups.
-    return template("calendar.html", year=year, prev_month=prev_month, month=month, next_month=next_month, days=days)
+    return template("calendar.html", title=title, year=year, prev_month=prev_month, month=month, next_month=next_month, days=days)
+
 
 # TODO: implement schedule registration route.
 # TODO: implement help page

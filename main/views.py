@@ -34,6 +34,7 @@ def show_monthly_schedule(request_date=''):
     :return request date schedule page."""
     if len(request_date) == 0:
         request_date = utils.get_current_date()
+        redirect("/list/" + request_date)
 
     if not utils.valid_date(request_date):
         # if date invalid then return bad request error.
@@ -51,7 +52,11 @@ def show_monthly_schedule(request_date=''):
     return template("calendar.html", title=title, year=year, prev_month=prev_month, month=month, next_month=next_month, days=days)
 
 
-# TODO: implement schedule registration route.
+@app.route('/schedule')
+@app.route('/schedule/<request_date:re:\d{6}>')
+def show_schedule_input(request_date=''):
+    pass
+
 # TODO: implement help page
 # ---- Static Routes ----
 @app.route("/static/css/<file_path:re:.*\.css>")

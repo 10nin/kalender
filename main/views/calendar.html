@@ -1,30 +1,28 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-    <title>{{title}}</title>
-</head>
-<body>
-<div class="control_button"><a href="/list/{{prev_month}}">&lt;</a>&emsp;&emsp; {{year}}年{% if month < 10
+{% extends "base.html" %}
+{% block contents %}
+<table>
+    <caption>
+    <a href="/list/{{prev_month}}">&lt;</a>&emsp;&emsp; {{year}}年{% if month < 10
     %}&ensp;{% endif %}{{month}}月の予定
     &emsp;
-    &emsp;<a href="/list/{{next_month}}">&gt;</a></div>
-<table>
-	<tbody>
+    &emsp;<a href="/list/{{next_month}}">&gt;</a>
+    </caption>
+	<thead>
 		<tr>
-			<th colspan="2" class="cell_head sunday">日</th>
-			<th colspan="2" class="cell_head">月</th>
-            <th colspan="2" class="cell_head">火</th>
-			<th colspan="2" class="cell_head">水</th>
-			<th colspan="2" class="cell_head">木</th>
-			<th colspan="2" class="cell_head">金</th>
-			<th colspan="2" class="cell_head saturday">土</th>
+			<th colspan="2" class="sunday">日</th>
+			<th colspan="2">月</th>
+            <th colspan="2">火</th>
+			<th colspan="2">水</th>
+			<th colspan="2">木</th>
+			<th colspan="2">金</th>
+			<th colspan="2" class="saturday">土</th>
 		</tr>
+    </thead>
+    <tbody>
         {% for w in days %}
 		<tr>
             {% for d in w %}
-			<td colspan="2" class="cell_base day_cell">
+			<td colspan="2">
                 {% if d != 0 %}
                 {{d}}
                 {% else %}
@@ -35,12 +33,11 @@
 		</tr>
         <tr>
             {% for _ in w %}
-            <td class="cell_base grp_cell_left">&emsp;</td>
-            <td class="cell_base grp_cell_right">&emsp;</td>
+            <td>&emsp;</td>
+            <td>&emsp;</td>
             {% endfor %}
         </tr>
         {% endfor %}
 	</tbody>
 </table>
-</body>
-</html>
+{% endblock %}

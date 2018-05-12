@@ -1,39 +1,31 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-    <title>{{title}}</title>
-</head>
+{% extends "base.html" %}
+{% block contents %}
 <body>
 ログイングループ名：{{login}}
 <hr>
-<div class="menu_block">
-    <div class="center_icon"><a href="/list" target="_parent"><img src="/static/img/time.png" width="80" height="80"
-                                                               alt="閲覧"></a><br>閲覧
+<div>
+    <div><a href="/list" target="_parent"><img src="/static/img/time.png" width="80" height="80" alt="閲覧"></a><br>閲覧
     </div>
 </div>
-<div class="menu_block">
-    <div class="center_icon"><a href="/schedule" target="_parent"><img src="/static/img/draw.png" width="80" height="80"
-                                                              alt="予定登録"></a><br>予定登録
+<div>
+    <div><a href="/schedule" target="_parent"><img src="/static/img/draw.png" width="80"
+                                                                       height="80" alt="予定登録"></a><br>予定登録
     </div>
 </div>
-<div class="menu_block">
-    <div class="center_icon"><a href="" target="_parent"><img src="/static/img/cogwheel.png" width="80" height="80" alt="設定"></a><br>
-        設定
+<div>
+    <div><a href="" target="_parent"><img src="/static/img/cogwheel.png" width="80" height="80" alt="設定"></a><br>設定
     </div>
 </div>
-<div class="menu_block">
-    <div class="center_icon"><a href="" target="_parent"><img src="/static/img/technology.png" width="80" height="80"
-                                             alt="ヘルプ"></a><br>ヘルプ
+<div>
+    <div><a href="" target="_parent"><img src="/static/img/technology.png" width="80" height="80" alt="ヘルプ"></a><br>ヘルプ
     </div>
 </div>
-<div class="clear_float"></div>
-<hr>
-<div class="footer_note">
+{% endblock %}
+{% block footer %}
+{{super()}}
+<div>
     Icons designed by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a
         href="https://www.flaticon.com/" title="Flaticon">Flaticon</a> is licensed by <a
         href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
 </div>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://gitcdn.link/repo/Chalarangelo/mini.css/master/dist/mini-lite.min.css">
+    <title>{{title}}</title>
+    {% endblock %}
+</head>
+<body>
+    <div>
+{% block contents %}
+{% endblock %}
+    </div>
+    <footer>
+{% block footer %}
+<hr>
+&copy; Copyright 2018 by Akira OTA.
+{% endblock %}
+        </footer>
+</body>
+</html>

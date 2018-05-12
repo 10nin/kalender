@@ -39,7 +39,7 @@ def show_monthly_schedule(request_date=''):
     if not utils.valid_date(request_date):
         # if date invalid then return bad request error.
         # TODO: change error message
-        return HTTPResponse(status=400, body='Request date was invalid. it accept between 201801 and 201912.')
+        return HTTPResponse(status=400, body='Request date was invalid.')
 
     year, month = utils.split_request_date(request_date)
     days = utils.generate_days(year, month)
@@ -55,7 +55,17 @@ def show_monthly_schedule(request_date=''):
 @app.route('/schedule')
 @app.route('/schedule/<request_date:re:\d{6}>')
 def show_schedule_input(request_date=''):
-    pass
+    if len(request_date) == 0:
+        request_date = utils.get_current_date()
+        redirect("/schedule/" + request_date)
+
+    if not utils.valid_date(request_date):
+        # if date invalid then return bad request error.
+        return HTTPResponse(status=400, body='Request date was invalid.')
+    year, month = utils.split_request_date(request_date)
+
+    title = f"Kalendar - {year}年{month}月の活動予定入力"
+    return template("schedule_input.html", title=title, year=year, month=month)
 
 # TODO: implement help page
 # ---- Static Routes ----

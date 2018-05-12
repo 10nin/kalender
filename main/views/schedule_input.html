@@ -6,6 +6,24 @@
     <title>{{title}}</title>
 </head>
 <body>
-
+ログイングループ名：{{login}}
+<hr>
+<div class="control_button">{{year}}年{% if month < 10 %}&ensp;{% endif %}{{month}}月の活動予定入力</div>
+<form name="schedule_info" action="/" method="post" enctype="text/plain" accept-charset="UTF-8">
+    <table>
+        <tbody>
+            <tr>
+                <th class="cell_head">日付</th>
+                <th class="cell_head">活動する場合 ◯</th>
+            </tr>
+            {% for s in gs %}
+            <tr>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <input type="submit" value="入力完了">
+</form>
 </body>
 </html>

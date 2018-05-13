@@ -2,27 +2,24 @@
 {% block contents %}
 <table>
     <caption>
-    <a href="/list/{{prev_month}}">&lt;</a>&emsp;&emsp; {{year}}年{% if month < 10
-    %}&ensp;{% endif %}{{month}}月の予定
-    &emsp;
-    &emsp;<a href="/list/{{next_month}}">&gt;</a>
+    <a href="/list/{{prev_month}}">&lt;</a>&emsp;{{year}}年{{month}}月の予定&emsp;<a href="/list/{{next_month}}">&gt;</a>
     </caption>
 	<thead>
 		<tr>
-			<th colspan="2" class="sunday">日</th>
-			<th colspan="2">月</th>
-            <th colspan="2">火</th>
-			<th colspan="2">水</th>
-			<th colspan="2">木</th>
-			<th colspan="2">金</th>
-			<th colspan="2" class="saturday">土</th>
+			<th class="sunday">日</th>
+			<th>月</th>
+            <th>火</th>
+			<th>水</th>
+			<th>木</th>
+			<th>金</th>
+			<th class="saturday">土</th>
 		</tr>
     </thead>
     <tbody>
         {% for w in days %}
 		<tr>
             {% for d in w %}
-			<td colspan="2">
+			<td>
                 {% if d != 0 %}
                 {{d}}
                 {% else %}
@@ -31,12 +28,6 @@
             </td>
             {% endfor %}
 		</tr>
-        <tr>
-            {% for _ in w %}
-            <td>&emsp;</td>
-            <td>&emsp;</td>
-            {% endfor %}
-        </tr>
         {% endfor %}
 	</tbody>
 </table>

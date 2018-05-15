@@ -112,7 +112,8 @@ CREATE TABLE kalendar.group_master (
     createdon timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     createdby character varying(50) DEFAULT 'SYSTEM'::character varying NOT NULL,
     lastupdateon timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    lastupdateby character varying(50) DEFAULT 'SYSTEM'::character varying
+    lastupdateby character varying(50) DEFAULT 'SYSTEM'::character varying,
+    groupcode character varying(10) NOT NULL
 );
 
 
@@ -351,7 +352,13 @@ COPY kalendar.group_calendar (id, groupid, zoocalendarid, createdon, createdby, 
 -- Data for Name: group_master; Type: TABLE DATA; Schema: kalendar; Owner: postgres
 --
 
-COPY kalendar.group_master (id, groupname, createdon, createdby, lastupdateon, lastupdateby) FROM stdin;
+COPY kalendar.group_master (id, groupname, createdon, createdby, lastupdateon, lastupdateby, groupcode) FROM stdin;
+1	Group2-1	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	02-0000-01
+2	Group2-2	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	02-0000-02
+3	Group1-1	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	01-0000-01
+4	Group1-2	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	01-0000-02
+5	Group0	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	00-0000-00
+6	Group9	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	99-9999-99
 \.
 
 
@@ -384,6 +391,9 @@ COPY kalendar.zoo_calendar_master (id, zoomasterid, openingdatetime, closingdate
 --
 
 COPY kalendar.zoo_master (id, zooname, createdon, createdby, latestupdateon, latestupdateby) FROM stdin;
+1	ZOO1	2018-05-15 11:23:01.124755	SYSTEM	2018-05-15 11:23:01.124755	SYSTEM
+3	ZOO3	2018-05-15 11:23:01.124755	SYSTEM	2018-05-15 11:23:01.124755	SYSTEM
+2	ZOO2	2018-05-15 11:23:01.124755	SYSTEM	2018-05-15 11:23:01.124755	SYSTEM
 \.
 
 
@@ -398,7 +408,7 @@ SELECT pg_catalog.setval('kalendar.group_calendar_id_seq', 1, false);
 -- Name: group_master_id_seq; Type: SEQUENCE SET; Schema: kalendar; Owner: postgres
 --
 
-SELECT pg_catalog.setval('kalendar.group_master_id_seq', 1, false);
+SELECT pg_catalog.setval('kalendar.group_master_id_seq', 6, true);
 
 
 --
@@ -426,7 +436,7 @@ SELECT pg_catalog.setval('kalendar.zoo_calendar_master_id_seq', 1, false);
 -- Name: zoo_master_id_seq; Type: SEQUENCE SET; Schema: kalendar; Owner: postgres
 --
 
-SELECT pg_catalog.setval('kalendar.zoo_master_id_seq', 1, false);
+SELECT pg_catalog.setval('kalendar.zoo_master_id_seq', 3, true);
 
 
 --
@@ -475,6 +485,13 @@ ALTER TABLE ONLY kalendar.zoo_calendar_master
 
 ALTER TABLE ONLY kalendar.zoo_master
     ADD CONSTRAINT zoo_master_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: group_master_groupcode_uindex; Type: INDEX; Schema: kalendar; Owner: postgres
+--
+
+CREATE UNIQUE INDEX group_master_groupcode_uindex ON kalendar.group_master USING btree (groupcode);
 
 
 --

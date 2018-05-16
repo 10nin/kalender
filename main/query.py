@@ -103,6 +103,16 @@ class Query:
                         Zoo_Calendar_Master.OpeningDateTime,
                         Zoo_Calendar_Master.ClosingDateTime).filter(Zoo_Calendar_Master.Id == calid).all()
 
+    def get_group_calendar(self, gid: int, fromday, today):
+        _s = self.SessionClass()
+        return _s.query(Zoo_Calendar_Master.OpeningDateTime,
+                        Zoo_Calendar_Master.ClosingDateTime)\
+            .filter(Group_Calendar.ZooCalendarId == Zoo_Calendar_Master.Id
+                    and Group_Calendar.GroupId == gid)\
+            .filter(Zoo_Calendar_Master.OpeningDateTime <= fromday
+                    and today <= Zoo_Calendar_Master.ClosingDateTime)\
+            .all()
+
     def set_group_calendar(self, calid: int, gid: int):
         """insert date time of group activity to GROUP_CALENDAR table."""
         if (self.get_group(gid) is not None) and (self.get_zoo_calendar(calid) is not None):

@@ -40,12 +40,12 @@ class Query:
     def get_group(self, gid: int) -> Group_Master:
         """get a group of match of gid."""
         _s = self.SessionClass()
-        return _s.query(Group_Master.Id, Group_Master.GroupName).filter(Group_Master.Id == gid).first()
+        return _s.query(Group_Master.id, Group_Master.groupname).filter(Group_Master.id == gid).first()
 
     def get_group_by_group_name(self, group_name: str) -> Group_Master:
         """get groups of match of group_name."""
         _s = self.SessionClass()
-        return _s.query(Group_Master.Id, Group_Master.GroupName).filter(Group_Master.GroupName == group_name).all()
+        return _s.query(Group_Master.id, Group_Master.groupname).filter(Group_Master.groupname == group_name).all()
 
     def password_success(self, gid: int, passwd: str) -> bool:
         """
@@ -79,7 +79,7 @@ class Query:
             return self._login_registration(info)
 
     def group_registration(self, group_name):
-        if len(group_name) > Group_Master.GroupName.type.length:
+        if len(group_name) > Group_Master.groupname.type.length:
             return False
         else:
             g = Group_Master(group_name=group_name)
@@ -88,7 +88,7 @@ class Query:
 
     def get_zoo(self, zid: int) -> Zoo_Master:
         _s = self.SessionClass()
-        return _s.query(Zoo_Master.Id, Zoo_Master.ZooName).filter(Zoo_Master.Id == zid).all()
+        return _s.query(Zoo_Master.id, Zoo_Master.ZooName).filter(Zoo_Master.id == zid).all()
 
     def set_zoo_calendar(self, zid: int, opening: DateTime, closing: DateTime):
         if self.get_zoo(zid) is not None:
@@ -98,16 +98,16 @@ class Query:
 
     def get_zoo_calendar(self, calid):
         _s = self.SessionClass()
-        return _s.query(Zoo_Calendar_Master.Id,
+        return _s.query(Zoo_Calendar_Master.id,
                         Zoo_Calendar_Master.ZooMasterId,
                         Zoo_Calendar_Master.OpeningDateTime,
-                        Zoo_Calendar_Master.ClosingDateTime).filter(Zoo_Calendar_Master.Id == calid).all()
+                        Zoo_Calendar_Master.ClosingDateTime).filter(Zoo_Calendar_Master.id == calid).all()
 
     def get_group_calendar(self, gid: int, fromday, today):
         _s = self.SessionClass()
         return _s.query(Zoo_Calendar_Master.OpeningDateTime,
                         Zoo_Calendar_Master.ClosingDateTime)\
-            .filter(Group_Calendar.ZooCalendarId == Zoo_Calendar_Master.Id
+            .filter(Group_Calendar.ZooCalendarId == Zoo_Calendar_Master.id
                     and Group_Calendar.GroupId == gid)\
             .filter(Zoo_Calendar_Master.OpeningDateTime <= fromday
                     and today <= Zoo_Calendar_Master.ClosingDateTime)\
@@ -123,9 +123,9 @@ class Query:
     def get_all_zoo(self):
         """get all zoo from ZOO_MASTER table."""
         _s = self.SessionClass()
-        return _s.query(Zoo_Master.Id, Zoo_Master.ZooName).all()
+        return _s.query(Zoo_Master.id, Zoo_Master.ZooName).all()
 
     def get_all_groups(self):
         """get all groups from GROUP_MASTER table."""
         _s = self.SessionClass()
-        return _s.query(Group_Master.Id, Group_Master.GroupName).all()
+        return _s.query(Group_Master.id, Group_Master.groupname).all()

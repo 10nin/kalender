@@ -1,9 +1,10 @@
 # coding=utf-8
 # coding=utf-8
-from sqlalchemy import Column, Integer, Date, DateTime, Time, String, ForeignKey, func
+from sqlalchemy import Column, Integer, Date, DateTime, Time, String, ForeignKey, func, MetaData
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 
-Base = declarative_base()
+meta = MetaData(schema="kalendar")
+Base = declarative_base(metadata=meta)
 
 
 class MixInBase(object):
@@ -14,7 +15,7 @@ class MixInBase(object):
         return cls.__name__.lower()
 
     # index columns
-    Id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     # who columns
     createdon = Column(DateTime, default=func.now(), nullable=False)
@@ -59,10 +60,10 @@ class Group_Master(MixInBase, Base):
     GroupName: string: name of this group.
     and who columns.
     """
-    GroupName = Column(String(200))
+    groupname = Column(String(200))
 
     def __init__(self, group_name):
-        self.GroupName = group_name
+        self.groupname = group_name
 
 
 class Login_Information_Master(MixInBase, Base):

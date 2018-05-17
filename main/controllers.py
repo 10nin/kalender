@@ -15,5 +15,5 @@ class Controller:
 
 
 if __name__ == "__main__":
-    c = Controller("setup.cfg")
+    c = Controller("../setup.cfg")
     print(c.call_get_all_groups())

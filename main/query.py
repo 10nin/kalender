@@ -14,10 +14,15 @@ class Query:
         self.engine = create_engine(db_path, echo=True)
         self.SessionClass = sessionmaker(bind=self.engine)
 
-    def insert_general(self, object: object) -> (boo, Exception):
+    def insert_general(self, obj: object) -> (bool, Exception):
         try:
             _s = self.SessionClass()
-            
+            _s.add(obj)
+            _s.flush()
+            _s.commit()
+        except Exception as e:
+            return False, e
+        return True,None
 
     def insert_all(self, objects: object) -> (bool, Exception):
         """Insert 'objects' to database.

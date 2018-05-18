@@ -25,16 +25,18 @@ class Controller:
         stored_hash = self.db.get_passwordhash(gid)
         return current_hash == stored_hash
 
-    def group_registration(self, group_name):
-        group_len = self.db.get_column_length(models.Group_Master.groupname)
-        if len(group_name) > group_len:
+    def group_registration(self, group_code, group_name):
+        group_name_len = self.db.get_column_length(models.Group_Master.groupname)
+        groupp_code_len = self.db.get_column_length(models.Group_Master.groupcode)
+        if (len(group_name) > group_name_len) or (len(group_code) > group_name_len):
             return False
         else:
-            g = models.Group_Master(group_name=group_name)
+            g = models.Group_Master(group_code=group_code, group_name=group_name)
             # ignore exception when insert.
-            return self.db.insert_general(g,)[0]
+            return self.db.insert_general(g)[0]
+
 
 if __name__ == "__main__":
     c = Controller("../setup.cfg")
-    c.group_registration('TestGroup')
+    c.group_registration('1234567890','TestGroup')
     print(c.call_get_all_groups())

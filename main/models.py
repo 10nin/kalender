@@ -57,12 +57,15 @@ class Group_Master(MixInBase, Base):
     """GROUP table
     this table is define of groups.
     Id: int: key(auto)
+    GroupCode: string: login code of this group
     GroupName: string: name of this group.
     and who columns.
     """
+    groupcode = Column(String(10))
     groupname = Column(String(200))
 
-    def __init__(self, group_name):
+    def __init__(self, group_code,group_name):
+        self.groupcode = group_code
         self.groupname = group_name
 
 

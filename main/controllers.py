@@ -27,16 +27,40 @@ class Controller:
 
     def group_registration(self, group_code, group_name):
         group_name_len = self.db.get_column_length(models.Group_Master.groupname)
-        groupp_code_len = self.db.get_column_length(models.Group_Master.groupcode)
-        if (len(group_name) > group_name_len) or (len(group_code) > group_name_len):
-            return False
+        group_code_len = self.db.get_column_length(models.Group_Master.groupcode)
+
+        if ((len(group_code) != group_code_len) or
+                len(group_name) > group_name_len):
+            # required group_code length is constant length,
+            # and group_name length is less than field length.
+            return None
         else:
             g = models.Group_Master(group_code=group_code, group_name=group_name)
-            # ignore exception when insert.
-            return self.db.insert_general(g)[0]
+            ret = self.db.insert_general(g)
+            if ret[0]:
+                return g
+            else:
+                return ret
+
+    def group_unregistration(self, group_code):
+        group_code_len = self.db.get_column_length(models.Group_Master.groupcode)
+
+        if len(group_code) != group_code_len:
+            return  None
+
+        g = self.db.get_group(group_code=group_code)
+        ret = self.db.delete_general(g)
+        if ret[0]:
+            return g
+        else:
+            return ret
 
 
 if __name__ == "__main__":
     c = Controller("../setup.cfg")
-    c.group_registration('1234567890','TestGroup')
+    gcode = '0123456789'
+    #c.group_registration(gcode,'TestGroup2')
+    #print(c.call_get_all_groups())
+    c.group_unregistration(gcode)
     print(c.call_get_all_groups())
+

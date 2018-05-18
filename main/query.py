@@ -14,7 +14,12 @@ class Query:
         self.engine = create_engine(db_path, echo=True)
         self.SessionClass = sessionmaker(bind=self.engine)
 
-    def _insert_general(self, objects: object) -> (bool, Exception):
+    def insert_general(self, object: object) -> (boo, Exception):
+        try:
+            _s = self.SessionClass()
+            
+
+    def insert_all(self, objects: object) -> (bool, Exception):
         """Insert 'objects' to database.
         :arg objects: expected target table instance object
         :return (True, None) is returned when success the insert, otherwise return (False, exception object)"""
@@ -27,12 +32,12 @@ class Query:
             return False, e
         return True, None
 
-    def _get_salt(self, gid: int) -> str:
+    def get_salt(self, gid: int) -> str:
         """return the salt value of gid."""
         _s = self.SessionClass()
         return _s.query(Login_Information_Master.PasswordSalt).filter(Login_Information_Master.GroupId == gid).first()
 
-    def _get_passwordhash(self, gid: int) -> str:
+    def get_passwordhash(self, gid: int) -> str:
         """get password hash value from database."""
         _s = self.SessionClass()
         return _s.query(Login_Information_Master.PasswordHash).filter(Login_Information_Master.GroupId == gid).first()
@@ -47,20 +52,8 @@ class Query:
         _s = self.SessionClass()
         return _s.query(Group_Master.id, Group_Master.groupname).filter(Group_Master.groupname == group_name).all()
 
-    def password_success(self, gid: int, passwd: str) -> bool:
-        """
-        login hash value check for gid and password pair.
-        :param gid: the target group id.
-        :param passwd: target raw password string.
-        :return: if login is success then True, otherwise False.
-        """
-        salt = self._get_salt(gid)
-        current_hash = utils.get_hashval(passwd, salt)
-        stored_hash = self._get_passwordhash(gid)
-        return current_hash == stored_hash
-
     def _login_registration(self, login_info):
-        ret = self._insert_general(login_info)
+        ret = self.insert_general(login_info)
         if not (ret[0]):
             # when insert failed be throw exception.
             raise ret[1]
@@ -78,14 +71,6 @@ class Query:
             info = Login_Information_Master(gid=gid, passwd_hs=hash_code, salt=salt)
             return self._login_registration(info)
 
-    def group_registration(self, group_name):
-        if len(group_name) > Group_Master.groupname.type.length:
-            return False
-        else:
-            g = Group_Master(group_name=group_name)
-            # ignore exception when insert.
-            return self._insert_general(g)[0]
-
     def get_zoo(self, zid: int) -> Zoo_Master:
         _s = self.SessionClass()
         return _s.query(Zoo_Master.id, Zoo_Master.ZooName).filter(Zoo_Master.id == zid).all()
@@ -93,7 +78,7 @@ class Query:
     def set_zoo_calendar(self, zid: int, opening: DateTime, closing: DateTime):
         if self.get_zoo(zid) is not None:
             c = Zoo_Calendar_Master(zid, opening, closing)
-            return self._insert_general(c)[0]
+            return self.insert_general(c)[0]
         return False
 
     def get_zoo_calendar(self, calid):
@@ -117,7 +102,7 @@ class Query:
         """insert date time of group activity to GROUP_CALENDAR table."""
         if (self.get_group(gid) is not None) and (self.get_zoo_calendar(calid) is not None):
             c = Group_Calendar(gid, calid)
-            return self._insert_general(c)[0]
+            return self.insert_general(c)[0]
         return False
 
     def get_all_zoo(self):
@@ -129,3 +114,6 @@ class Query:
         """get all groups from GROUP_MASTER table."""
         _s = self.SessionClass()
         return _s.query(Group_Master.id, Group_Master.groupname).all()
+
+    def get_column_length(self, column):
+        return column.type.length

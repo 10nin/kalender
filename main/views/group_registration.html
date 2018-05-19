@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block contents %}
+<div class="row">
+<form name="login_info" action="/" method="post" enctype="text/plain" accept-charset="UTF-8">
+    グループID：<input type="text" name="group_code" size="20" maxlength="10" title="10桁のコードを入力"><br>
+    グループ名：<input type="text" name="group_name" size="20" maxlength="200" title="表示に使用するグループ名称"><br>
+    パスワード：<input type="password" name="login_passowrd" size="20" maxlength="200" title="ログイン用パスワードを入力"><br>
+    <input type="submit" value="グループ登録実行">
+</form>
+</div>
+{% endblock %}

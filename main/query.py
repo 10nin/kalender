@@ -46,14 +46,14 @@ class Query:
     def get_salt(self, gid: int) -> str:
         """return the salt value of gid."""
         _s = self.SessionClass()
-        salt = _s.query(Login_Information_Master.PasswordSalt).filter(Login_Information_Master.GroupId == gid).first()
+        salt = _s.query(Login_Information_Master.passwordsalt).filter(Login_Information_Master.groupid == gid).first()
         _s.close()
         return salt
 
     def get_passwordhash(self, gid: int) -> str:
         """get password hash value from database."""
         _s = self.SessionClass()
-        hs =_s.query(Login_Information_Master.PasswordHash).filter(Login_Information_Master.GroupId == gid).first()
+        hs =_s.query(Login_Information_Master.passwordhash).filter(Login_Information_Master.groupid == gid).first()
         hs.close()
         return hs
 
@@ -85,7 +85,7 @@ class Query:
             # group is already exists
             return False
         else:
-            salt = utils.get_unique_str(len(Login_Information_Master.PasswordSalt))
+            salt = utils.get_unique_str(len(Login_Information_Master.passwordsalt))
             hash_code = utils.get_hashval(passwd, salt)
             info = Login_Information_Master(gid=g.id, passwd_hs=hash_code, salt=salt)
             return self._login_registration(info)
@@ -105,21 +105,17 @@ class Query:
     def get_zoo_calendar(self, calid):
         _s = self.SessionClass()
         cal = _s.query(Zoo_Calendar_Master.id,
-                       Zoo_Calendar_Master.ZooMasterId,
-                       Zoo_Calendar_Master.OpeningDateTime,
-                       Zoo_Calendar_Master.ClosingDateTime).filter(Zoo_Calendar_Master.id == calid).all()
+                       Zoo_Calendar_Master.zoomasterid,
+                       Zoo_Calendar_Master.openingdatetime,
+                       Zoo_Calendar_Master.closingdatetime).filter(Zoo_Calendar_Master.id == calid).all()
         _s.close()
         return cal
 
-    def get_group_calendar(self, gid: int, fromday, today):
+    def get_group_calendar(self, gid: int):
         _s = self.SessionClass()
-        cal = _s.query(Zoo_Calendar_Master.OpeningDateTime,
-                        Zoo_Calendar_Master.ClosingDateTime)\
-                .filter(Group_Calendar.ZooCalendarId == Zoo_Calendar_Master.id
-                        and Group_Calendar.GroupId == gid)\
-                .filter(Zoo_Calendar_Master.OpeningDateTime <= fromday
-                        and today <= Zoo_Calendar_Master.ClosingDateTime)\
-                .all()
+        cal = _s.query(Zoo_Calendar_Master)\
+                .filter(Group_Calendar.zoocalendarid == Zoo_Calendar_Master.id
+                        and Group_Calendar.groupid == gid).all()
         _s.close()
         return cal
 

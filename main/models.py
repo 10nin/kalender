@@ -32,10 +32,10 @@ class Zoo_Master(MixInBase, Base):
     ZooName: string: name of this zoo
     and who columns.
     """
-    ZooName = Column(String(200))
+    zooname = Column(String(200))
 
     def __init__(self, zooname):
-        self.ZooName = zooname
+        self.zooname = zooname
 
 
 class Group_Calendar(MixInBase, Base):
@@ -45,12 +45,12 @@ class Group_Calendar(MixInBase, Base):
     ZooCalendarId: int: link to ZOO_CALENDAR.Id
     and who columns.
     """
-    GroupId = Column(Integer, ForeignKey("GROUP.Id"), nullable=False)
-    ZooCalendarId = Column(Integer, ForeignKey("ZOO_CALENDAR.Id"), nullable=False)
+    groupid = Column(Integer, ForeignKey("GROUP.Id"), nullable=False)
+    zoocalendarid = Column(Integer, ForeignKey("ZOO_CALENDAR.Id"), nullable=False)
 
     def __init__(self, gid, zoocalendarid):
-        self.GroupId = gid
-        self.ZooCalendarId = zoocalendarid
+        self.groupid = gid
+        self.zoocalendarid = zoocalendarid
 
 
 class Group_Master(MixInBase, Base):
@@ -78,14 +78,14 @@ class Login_Information_Master(MixInBase, Base):
     and who columns.
     * password stored hashed at SHA3-512
     """
-    GroupId = Column(Integer, ForeignKey("GROUP.Id"), nullable=False)
-    PasswordHash = Column(String(200), nullable=False)
-    PasswordSalt = Column(String(200))
+    groupid = Column(Integer, ForeignKey("GROUP.Id"), nullable=False)
+    passwordhash = Column(String(200), nullable=False)
+    passwordsalt = Column(String(200))
 
     def __init__(self, gid, passwd_hs, salt):
-        self.GroupId = gid
-        self.PasswordHash = passwd_hs
-        self.PasswordSalt = salt
+        self.groupid = gid
+        self.passwordhash = passwd_hs
+        self.passwordsalt = salt
 
 
 
@@ -98,11 +98,11 @@ class Zoo_Calendar_Master(MixInBase, Base):
     ClosingDateTime: timestamp: Closing date time of this zoo
     and who columns.
     """
-    ZooMasterId = Column(Integer, ForeignKey("ZOO_MASTER.Id"), nullable=False)
-    OpeningDateTime = Column(DateTime, nullable=False)
-    ClosingDateTime = Column(DateTime, nullable=False)
+    zoomasterid = Column(Integer, ForeignKey("ZOO_MASTER.Id"), nullable=False)
+    openingdatetime = Column(DateTime, nullable=False)
+    closingdatetime = Column(DateTime, nullable=False)
 
     def __init__(self, zooid, opening_date, closing_date):
-        self.ZooMasterId = zooid
-        self.OpeningDateTime = opening_date
-        self.ClosingDateTime = closing_date
+        self.zoomasterid = zooid
+        self.openingdatetime = opening_date
+        self.closingdatetime = closing_date

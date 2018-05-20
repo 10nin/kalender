@@ -55,12 +55,17 @@ class Controller:
         else:
             return ret
 
+    def get_group_calendar(self, group_code):
+        g = self.db.get_group(group_code=group_code)
+        ret = self.db.get_group_calendar(g.id)
+        return ret
+
 
 if __name__ == "__main__":
     c = Controller("../setup.cfg")
-    gcode = '0123456789'
-    #c.group_registration(gcode,'TestGroup2')
-    #print(c.call_get_all_groups())
-    c.group_unregistration(gcode)
-    print(c.call_get_all_groups())
+    gcode = '02-0000-01'
+    cal = c.get_group_calendar(gcode)
+    for i in cal:
+        print("OP: " + str(i.openingdatetime))
+        print("CL: " + str(i.closingdatetime))
 

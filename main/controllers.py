@@ -66,6 +66,5 @@ if __name__ == "__main__":
     gcode = '02-0000-01'
     cal = c.get_group_calendar(gcode)
     for i in cal:
-        print("OP: " + str(i.openingdatetime))
-        print("CL: " + str(i.closingdatetime))
+        print("OP_CL: " + str(i.openingclosingid))
 

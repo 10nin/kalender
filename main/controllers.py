@@ -3,6 +3,7 @@ import os, configparser
 from main import utils, models
 from main.query import Query
 
+
 class Controller:
     def __init__(self, config_filepath):
         cfg = configparser.ConfigParser()
@@ -10,10 +11,16 @@ class Controller:
         url = cfg["DATABASE"]["url"]
         self.db = Query(db_path=url)
 
-    def call_get_all_groups(self):
+    def get_all_groups(self):
         return self.db.get_all_groups()
 
-    def password_success(self, gid: int, passwd: str) -> bool:
+    def is_login_success(self, groupcode: str, passwd: str) -> bool:
+        g = self.db.get_group(group_code=groupcode)
+        if g is None:
+            return False # group not found
+        return self._password_success(g.id, passwd=passwd)
+
+    def _password_success(self, gid: int, passwd: str) -> bool:
         """
         login hash value check for gid and password pair.
         :param gid: the target group id.
@@ -64,7 +71,6 @@ class Controller:
 if __name__ == "__main__":
     c = Controller("../setup.cfg")
     gcode = '02-0000-01'
-    cal = c.get_group_calendar(gcode)
-    for i in cal:
-        print("OP_CL: " + str(i.openingclosingid))
+    passwd = ''
+    print(c.is_login_success(groupcode=gcode, passwd=passwd))
 

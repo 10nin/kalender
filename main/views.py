@@ -1,11 +1,14 @@
 # coding=utf-8
 
-from bottle import Bottle, redirect, request, HTTPResponse, static_file, jinja2_template as template
+from bottle import Bottle, run, redirect, request, HTTPResponse, static_file, jinja2_template as template
 from bottle_log import LoggingPlugin
+from beaker.middleware import SessionMiddleware
 from main import utils, controllers
 
+session_ops = []
 app = Bottle()
 app.install(LoggingPlugin(app.config))
+apps = SessionMiddleware(app, session_ops)
 
 
 @app.route("/")
@@ -90,4 +93,4 @@ def js(file_path):
 
 
 if __name__ == '__main__':
-    app.run(host="localhost", port=8080, debug=True, reloader=True)
+    run(app=apps, host="localhost", port=8080, debug=True, reloader=True)

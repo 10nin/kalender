@@ -45,7 +45,8 @@ class Controller:
             _g = models.Group_Master(group_code=group_code, group_name=group_name)
             ret = self.db.insert_general(_g)
             if ret[0]:
-                return self.db.group_login_registration(group_code=_g.groupcode, passwd=passwd)
+                _g = self.db.get_group(group_code=group_code)
+                return self.db.group_login_registration(gid=_g.id, passwd=passwd)
             else:
                 return ret
 
@@ -70,7 +71,8 @@ class Controller:
 
 if __name__ == "__main__":
     c = Controller("../setup.cfg")
-    gcode = '02-0000-01'
-    passwd = ''
+    gcode = '09-0000-01'
+    passwd = 'abcdefg'
+    c.group_registration(group_code=gcode, group_name='testgroup', passwd=passwd)
     print(c.is_login_success(groupcode=gcode, passwd=passwd))
 

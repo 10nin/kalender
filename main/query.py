@@ -79,15 +79,21 @@ class Query:
         else:
             return True
 
-    def group_login_registration(self, group_code: str, passwd: str) -> bool:
-        g = self.get_group(group_code=group_code)
-        if g is not None:
+    def get_login_information(self, gid: int) -> Login_Information_Master:
+        _s = self.SessionClass()
+        li = _s.query(Login_Information_Master).filter(Login_Information_Master.groupid == gid).first()
+        _s.close()
+        return li
+
+    def group_login_registration(self, gid: int, passwd: str) -> bool:
+        li = self.get_login_information(gid)
+        if li is not None:
             # group is already exists
             return False
         else:
-            salt = utils.get_unique_str(len(Login_Information_Master.passwordsalt))
+            salt = utils.get_unique_str(self.get_column_length(Login_Information_Master.passwordsalt))
             hash_code = utils.get_hashval(passwd, salt)
-            info = Login_Information_Master(gid=g.id, passwd_hs=hash_code, salt=salt)
+            info = Login_Information_Master(gid=gid, passwd_hs=hash_code, salt=salt)
             return self._login_registration(info)
 
     def get_zoo(self, zid: int) -> Zoo_Master:

@@ -46,16 +46,16 @@ class Query:
     def get_salt(self, gid: int) -> str:
         """return the salt value of gid."""
         _s = self.SessionClass()
-        salt = _s.query(Login_Information_Master.passwordsalt).filter(Login_Information_Master.groupid == gid).first()
+        salt = _s.query(Login_Information_Master.passwordsalt).filter(Login_Information_Master.groupid == gid).scalar()
         _s.close()
         return salt if salt is not None else ''
 
     def get_passwordhash(self, gid: int) -> str:
         """get password hash value from database."""
         _s = self.SessionClass()
-        hs =_s.query(Login_Information_Master.passwordhash).filter(Login_Information_Master.groupid == gid).first()
+        hs =_s.query(Login_Information_Master.passwordhash).filter(Login_Information_Master.groupid == gid).scalar()
         _s.close()
-        return hs
+        return hs if hs is not None else utils.get_unique_str(self.get_column_length(Login_Information_Master.passwordhash))
 
     def get_groups_by_group_name(self, group_name: str) -> Group_Master:
         """get groups of match of group_name."""

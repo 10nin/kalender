@@ -2,7 +2,7 @@
 
 from bottle import Bottle, redirect, request, HTTPResponse, static_file, jinja2_template as template
 from bottle_log import LoggingPlugin
-from main import utils
+from main import utils, controllers
 
 app = Bottle()
 app.install(LoggingPlugin(app.config))
@@ -10,15 +10,18 @@ app.install(LoggingPlugin(app.config))
 
 @app.route("/")
 def show_root():
-    return template("login.html", title="Kalendar - ログイン")
+    return template("login.html", title="Kalendar - ログイン", message='')
 
 
 @app.route("/", method="POST")
 def login_proc():
-    group_name = request.forms.get("group_name")
-    password = request.forms.get("pass")
-    # TODO: add login check
-    redirect("/menu")
+    group_code = request.forms.group_code
+    password = request.forms.passwd
+    c = controllers.Controller("../setup.cfg")
+    if c.is_login_success(groupcode=group_code,passwd=password):
+        redirect("/menu")
+    else:
+        return template("login.html", title="Kalendar - ログイン", message='グループIDかパスワードが間違っています')
 
 
 @app.route("/menu")

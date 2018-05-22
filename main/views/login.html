@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block contents %}
 <div class="row">
-    <form name="login_info" action="/" method="post" enctype="text/plain" accept-charset="UTF-8">
-        <img src="/static/img/user.png" alt="グループID" width="16" height="16">&nbsp;<input type="text" name="group_id"
+    <form name="login_info" action="/" method="post" accept-charset="UTF-8">
+        <img src="/static/img/user.png" alt="グループID" width="16" height="16">&nbsp;<input type="text" name="group_code"
                                                                                         size="20" maxlength="120"
                                                                                          title="10桁のグループコードを入力"><br>
         <img src="/static/img/lock.png" alt="パスワード" width="16" height="16">&nbsp;<input type="password" name="passwd"
@@ -11,6 +11,11 @@
         <input type="submit" value="ログイン">
     </form>
 </div>
+{% if message != '' %}
+<div>
+    <span style="color: red;">{{message}}</span>
+</div>
+{% endif %}
 {% endblock %}
 {% block footer %}
 {{super()}}

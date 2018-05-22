@@ -32,7 +32,7 @@ class Controller:
         stored_hash = self.db.get_passwordhash(gid)
         return current_hash == stored_hash
 
-    def group_registration(self, group_code, group_name):
+    def group_registration(self, group_code, group_name, passwd):
         group_name_len = self.db.get_column_length(models.Group_Master.groupname)
         group_code_len = self.db.get_column_length(models.Group_Master.groupcode)
 
@@ -42,10 +42,10 @@ class Controller:
             # and group_name length is less than field length.
             return None
         else:
-            g = models.Group_Master(group_code=group_code, group_name=group_name)
-            ret = self.db.insert_general(g)
+            _g = models.Group_Master(group_code=group_code, group_name=group_name)
+            ret = self.db.insert_general(_g)
             if ret[0]:
-                return g
+                return self.db.group_login_registration(group_code=_g.groupcode, passwd=passwd)
             else:
                 return ret
 

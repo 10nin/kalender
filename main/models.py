@@ -78,7 +78,7 @@ class Login_Information_Master(MixInBase, Base):
     and who columns.
     * password stored hashed at SHA3-512
     """
-    groupid = Column(Integer, ForeignKey("group.id"), nullable=False)
+    groupid = Column(Integer, ForeignKey("group_master.id"), nullable=False)
     passwordhash = Column(String(200), nullable=False)
     passwordsalt = Column(String(200))
 

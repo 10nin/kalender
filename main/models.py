@@ -45,7 +45,7 @@ class Group_Calendar(MixInBase, Base):
     ZooCalendarId: int: link to ZOO_CALENDAR.Id
     and who columns.
     """
-    groupid = Column(Integer, ForeignKey("group.id"), nullable=False)
+    groupid = Column(Integer, ForeignKey("group_master.id"), nullable=False)
     zoocalendarid = Column(Integer, ForeignKey("zoo_calendar.id"), nullable=False)
 
     def __init__(self, gid, zoocalendarid):
@@ -61,7 +61,7 @@ class Group_Master(MixInBase, Base):
     GroupName: string: name of this group.
     and who columns.
     """
-    groupcode = Column(String(10))
+    groupcode = Column(String(10), unique=True)
     groupname = Column(String(200))
 
     def __init__(self, group_code,group_name):
@@ -78,7 +78,7 @@ class Login_Information_Master(MixInBase, Base):
     and who columns.
     * password stored hashed at SHA3-512
     """
-    groupid = Column(Integer, ForeignKey("group_master.id"), nullable=False)
+    groupid = Column(Integer, ForeignKey("group_master.id"), unique=True, nullable=False)
     passwordhash = Column(String(200), nullable=False)
     passwordsalt = Column(String(200))
 
@@ -118,4 +118,3 @@ class Zoo_Calendar_Master(MixInBase, Base):
     def __init__(self, zooid, openingclosingid):
         self.zoomasterid = zooid
         self.openingclosingid = openingclosingid
-

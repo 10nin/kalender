@@ -71,8 +71,8 @@ class Controller:
 
 if __name__ == "__main__":
     c = Controller("../setup.cfg")
-    gcode = '09-0000-01'
+    gcode = '00-0000-00'
     passwd = 'abcdefg'
-    c.group_registration(group_code=gcode, group_name='testgroup', passwd=passwd)
+    #c.group_registration(group_code=gcode, group_name='testgroup', passwd=passwd)
     print(c.is_login_success(groupcode=gcode, passwd=passwd))
 

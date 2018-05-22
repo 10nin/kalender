@@ -142,10 +142,10 @@ ALTER SEQUENCE kalendar.group_master_id_seq OWNED BY kalendar.group_master.id;
 
 
 --
--- Name: login_infromation_master; Type: TABLE; Schema: kalendar; Owner: postgres
+-- Name: login_information_master; Type: TABLE; Schema: kalendar; Owner: postgres
 --
 
-CREATE TABLE kalendar.login_infromation_master (
+CREATE TABLE kalendar.login_information_master (
     id integer NOT NULL,
     groupid integer NOT NULL,
     passwordhash character varying(200) NOT NULL,
@@ -158,7 +158,7 @@ CREATE TABLE kalendar.login_infromation_master (
 );
 
 
-ALTER TABLE kalendar.login_infromation_master OWNER TO postgres;
+ALTER TABLE kalendar.login_information_master OWNER TO postgres;
 
 --
 -- Name: login_infromation_master_id_seq; Type: SEQUENCE; Schema: kalendar; Owner: postgres
@@ -179,7 +179,7 @@ ALTER TABLE kalendar.login_infromation_master_id_seq OWNER TO postgres;
 -- Name: login_infromation_master_id_seq; Type: SEQUENCE OWNED BY; Schema: kalendar; Owner: postgres
 --
 
-ALTER SEQUENCE kalendar.login_infromation_master_id_seq OWNED BY kalendar.login_infromation_master.id;
+ALTER SEQUENCE kalendar.login_infromation_master_id_seq OWNED BY kalendar.login_information_master.id;
 
 
 --
@@ -351,10 +351,10 @@ ALTER TABLE ONLY kalendar.group_master ALTER COLUMN id SET DEFAULT nextval('kale
 
 
 --
--- Name: login_infromation_master id; Type: DEFAULT; Schema: kalendar; Owner: postgres
+-- Name: login_information_master id; Type: DEFAULT; Schema: kalendar; Owner: postgres
 --
 
-ALTER TABLE ONLY kalendar.login_infromation_master ALTER COLUMN id SET DEFAULT nextval('kalendar.login_infromation_master_id_seq'::regclass);
+ALTER TABLE ONLY kalendar.login_information_master ALTER COLUMN id SET DEFAULT nextval('kalendar.login_infromation_master_id_seq'::regclass);
 
 
 --
@@ -410,10 +410,10 @@ COPY kalendar.group_master (id, groupname, createdon, createdby, lastupdateon, l
 
 
 --
--- Data for Name: login_infromation_master; Type: TABLE DATA; Schema: kalendar; Owner: postgres
+-- Data for Name: login_information_master; Type: TABLE DATA; Schema: kalendar; Owner: postgres
 --
 
-COPY kalendar.login_infromation_master (id, groupid, passwordhash, passwordsalt, createdon, createdby, lastupdateon, lastupdateby, roleid) FROM stdin;
+COPY kalendar.login_information_master (id, groupid, passwordhash, passwordsalt, createdon, createdby, lastupdateon, lastupdateby, roleid) FROM stdin;
 \.
 
 
@@ -521,10 +521,10 @@ ALTER TABLE ONLY kalendar.group_master
 
 
 --
--- Name: login_infromation_master login_infromation_master_pkey; Type: CONSTRAINT; Schema: kalendar; Owner: postgres
+-- Name: login_information_master login_infromation_master_pkey; Type: CONSTRAINT; Schema: kalendar; Owner: postgres
 --
 
-ALTER TABLE ONLY kalendar.login_infromation_master
+ALTER TABLE ONLY kalendar.login_information_master
     ADD CONSTRAINT login_infromation_master_pkey PRIMARY KEY (id);
 
 
@@ -597,18 +597,18 @@ ALTER TABLE ONLY kalendar.group_calendar
 
 
 --
--- Name: login_infromation_master login_infromation_master_group_master_id_fk; Type: FK CONSTRAINT; Schema: kalendar; Owner: postgres
+-- Name: login_information_master login_infromation_master_group_master_id_fk; Type: FK CONSTRAINT; Schema: kalendar; Owner: postgres
 --
 
-ALTER TABLE ONLY kalendar.login_infromation_master
+ALTER TABLE ONLY kalendar.login_information_master
     ADD CONSTRAINT login_infromation_master_group_master_id_fk FOREIGN KEY (groupid) REFERENCES kalendar.group_master(id);
 
 
 --
--- Name: login_infromation_master login_infromation_master_role_id_fk; Type: FK CONSTRAINT; Schema: kalendar; Owner: postgres
+-- Name: login_information_master login_infromation_master_role_id_fk; Type: FK CONSTRAINT; Schema: kalendar; Owner: postgres
 --
 
-ALTER TABLE ONLY kalendar.login_infromation_master
+ALTER TABLE ONLY kalendar.login_information_master
     ADD CONSTRAINT login_infromation_master_role_id_fk FOREIGN KEY (roleid) REFERENCES kalendar.role(id);
 
 

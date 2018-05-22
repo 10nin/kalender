@@ -48,13 +48,13 @@ class Query:
         _s = self.SessionClass()
         salt = _s.query(Login_Information_Master.passwordsalt).filter(Login_Information_Master.groupid == gid).first()
         _s.close()
-        return salt
+        return salt if salt is not None else ''
 
     def get_passwordhash(self, gid: int) -> str:
         """get password hash value from database."""
         _s = self.SessionClass()
         hs =_s.query(Login_Information_Master.passwordhash).filter(Login_Information_Master.groupid == gid).first()
-        hs.close()
+        _s.close()
         return hs
 
     def get_groups_by_group_name(self, group_name: str) -> Group_Master:

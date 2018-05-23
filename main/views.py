@@ -28,6 +28,7 @@ def login_proc():
     password = request.forms.passwd
     c = controllers.Controller("../setup.cfg")
     if c.is_login_success(groupcode=group_code,passwd=password):
+
         redirect("/menu")
     else:
         return template("login.html", title="Kalendar - ログイン", message='グループIDかパスワードが間違っています')
@@ -97,6 +98,21 @@ def js(file_path):
     """Route for javascripts."""
     return static_file(file_path, root="static/js")
 
+
+# session utility functions
+def set_session_val(k, v):
+    _s = request.environ["beaker.session"]
+    _s[k] = v
+    _s.save()
+
+def get_session_val(k):
+    _s = request.environ['beaker.session']
+    return _s[k] if k in _s else ''
+
+def delete_session_val(k):
+    _s = request.environ['beaker.session']
+    if k in _s:
+        del _s[k]
 
 if __name__ == '__main__':
     run(app=apps, host="localhost", port=8080, debug=True, reloader=True)

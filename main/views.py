@@ -11,6 +11,7 @@ session_ops = {
     'session.auto': True,
     'session.key': utils.get_unique_str(128),
     'session.timeout': '600',
+    'session.validate_key': utils.get_unique_str(128),
 }
 app = Bottle()
 app.install(LoggingPlugin(app.config))
@@ -28,7 +29,7 @@ def login_proc():
     password = request.forms.passwd
     c = controllers.Controller("../setup.cfg")
     if c.is_login_success(groupcode=group_code,passwd=password):
-
+        set_session_val('gcode', group_code)
         redirect("/menu")
     else:
         return template("login.html", title="Kalendar - ログイン", message='グループIDかパスワードが間違っています')
@@ -36,7 +37,12 @@ def login_proc():
 
 @app.route("/menu")
 def show_main_menu():
-    return template("menu.html", title="Kalendar - メインメニュー")
+    # check login
+    gcode = get_session_val('gcode')
+    if gcode is None:
+        redirect('/')
+    else:
+        return template("menu.html", title="Kalendar - メインメニュー")
 
 
 @app.route("/list")
@@ -107,7 +113,7 @@ def set_session_val(k, v):
 
 def get_session_val(k):
     _s = request.environ['beaker.session']
-    return _s[k] if k in _s else ''
+    return _s[k] if k in _s else None
 
 def delete_session_val(k):
     _s = request.environ['beaker.session']

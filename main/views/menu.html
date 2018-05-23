@@ -1,23 +1,31 @@
 {% extends "base.html" %}
 {% block contents %}
 <body>
-ログイングループ名：{{login}}
+<div class="row">
+    <div class="ten columns">ログイングループ名：{{login}}</div>
+    <div class="two columns" style="vertical-align: middle;"><img src="/static/img/logout.png" alt="ログアウト" width="32"
+                                                            height="32"></div>
+</div>
+<div class="row">
 <hr>
+</div>
 <div class="row">
         <div class="two columns">&nbsp;</div>
         <div class="two columns">
-            <a href="/list" target="_parent"><img src="/static/img/time.png" width="80" height="80" alt="閲覧"></a><br>閲覧
+            <a href="/list"
+               target="_parent"><img src="/static/img/time.png" width="80" height="80" alt="予定閲覧"></a><br>予定閲覧
         </div>
         <div class="two columns">
             <a href="/schedule" target="_parent"><img src="/static/img/draw.png" width="80"
                                                                        height="80" alt="予定登録"></a><br>予定登録
         </div>
         <div class="two columns">
-            <a href="" target="_parent"><img src="/static/img/cogwheel.png" width="80" height="80" alt="設定"></a><br>設定
+            <a href=""
+               target="_parent"><img src="/static/img/cogwheel.png" width="80" height="80" alt="設定変更"></a><br>設定変更
         </div>
         <div class="two columns">
             <a href=""
-              target="_parent"><img src="/static/img/technology.png" width="80" height="80" alt="ヘルプ"></a><br>ヘルプ
+              target="_parent"><img src="/static/img/technology.png" width="80" height="80" alt="使い方表示"></a><br>使い方表示
         </div>
         <div class="two columns">&nbsp;</div>
 </div>

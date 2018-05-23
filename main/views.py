@@ -5,7 +5,13 @@ from bottle_log import LoggingPlugin
 from beaker.middleware import SessionMiddleware
 from main import utils, controllers
 
-session_ops = []
+session_ops = {
+    'session.type': 'cookie',
+    'session.cookie_expires': True,
+    'session.auto': True,
+    'session.key': utils.get_unique_str(128),
+    'session.timeout': '600',
+}
 app = Bottle()
 app.install(LoggingPlugin(app.config))
 apps = SessionMiddleware(app, session_ops)

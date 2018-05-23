@@ -3,7 +3,8 @@
 from bottle import Bottle, run, redirect, request, HTTPResponse, static_file, jinja2_template as template
 from bottle_log import LoggingPlugin
 from beaker.middleware import SessionMiddleware
-from main import utils, controllers
+from main.controllers import Controller
+from main import utils
 
 session_ops = {
     'session.type': 'cookie',
@@ -27,7 +28,7 @@ def show_root():
 def login_proc():
     group_code = request.forms.group_code
     password = request.forms.passwd
-    c = controllers.Controller("../setup.cfg")
+    c = Controller("../setup.cfg")
     if c.is_login_success(groupcode=group_code,passwd=password):
         set_session_val('gcode', group_code)
         redirect("/menu")
@@ -42,7 +43,9 @@ def show_main_menu():
     if gcode is None:
         redirect('/')
     else:
-        return template("menu.html", title="Kalendar - メインメニュー")
+        c = Controller("../setup.cfg")
+        gname = c.get_group_name(group_code=gcode)
+        return template("menu.html", title="Kalendar - メインメニュー", login=gname)
 
 
 @app.route("/list")

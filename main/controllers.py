@@ -68,6 +68,13 @@ class Controller:
         ret = self.db.get_group_calendar(g.id)
         return ret
 
+    def get_group_name(self, group_code):
+        g = self.db.get_group(group_code=group_code)
+        if g is None:
+            return ""
+        else:
+            return g.groupname
+
 
 if __name__ == "__main__":
     c = Controller("../setup.cfg")

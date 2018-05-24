@@ -113,7 +113,8 @@ CREATE TABLE kalendar.group_master (
     createdby character varying(50) DEFAULT 'SYSTEM'::character varying NOT NULL,
     lastupdateon timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     lastupdateby character varying(50) DEFAULT 'SYSTEM'::character varying,
-    groupcode character varying(10) NOT NULL
+    groupcode character varying(10) NOT NULL,
+    zooid integer NOT NULL
 );
 
 
@@ -270,7 +271,8 @@ CREATE TABLE kalendar.zoo_calendar_master (
     createdby character varying(50) DEFAULT 'SYSTEM'::character varying NOT NULL,
     lastupdateon timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     lastupdateby character varying(50) DEFAULT 'SYSTEM'::character varying,
-    openingclosingid integer
+    openingclosingid integer,
+    calendarday date NOT NULL
 );
 
 
@@ -390,7 +392,6 @@ ALTER TABLE ONLY kalendar.zoo_master ALTER COLUMN id SET DEFAULT nextval('kalend
 --
 
 COPY kalendar.group_calendar (id, groupid, zoocalendarid, createdon, createdby, lastupdateon, lastupdateby) FROM stdin;
-1	1	1	2018-05-20 10:52:24.339268	SYSTEM	2018-05-20 10:52:24.339268	SYSTEM
 \.
 
 
@@ -398,14 +399,8 @@ COPY kalendar.group_calendar (id, groupid, zoocalendarid, createdon, createdby, 
 -- Data for Name: group_master; Type: TABLE DATA; Schema: kalendar; Owner: postgres
 --
 
-COPY kalendar.group_master (id, groupname, createdon, createdby, lastupdateon, lastupdateby, groupcode) FROM stdin;
-1	Group2-1	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	02-0000-01
-2	Group2-2	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	02-0000-02
-3	Group1-1	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	01-0000-01
-4	Group1-2	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	01-0000-02
-5	Group0	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	00-0000-00
-6	Group9	2018-05-15 11:28:50.813466	SYSTEM	2018-05-15 11:28:50.813466	SYSTEM	99-9999-99
-9	TestGroup	2018-05-18 22:27:40.861265	SYSTEM	\N	SYSTEM	1234567890
+COPY kalendar.group_master (id, groupname, createdon, createdby, lastupdateon, lastupdateby, groupcode, zooid) FROM stdin;
+28	testgroup	2018-05-22 09:59:47.93318	SYSTEM	\N	SYSTEM	09-0000-01	1
 \.
 
 
@@ -414,6 +409,7 @@ COPY kalendar.group_master (id, groupname, createdon, createdby, lastupdateon, l
 --
 
 COPY kalendar.login_information_master (id, groupid, passwordhash, passwordsalt, createdon, createdby, lastupdateon, lastupdateby, roleid) FROM stdin;
+6	28	E124FE2AD89DD1FB4B1AADEE519E53127F708E94256DFA353E5C237D5289E0A78FE1950A819DACC8E0974D4ED5E08C8E28C0DE995CD17CF9CF21451FF3761EE6	7b9e1f292db9401e8b6b140a7710ca4c	2018-05-22 09:59:47.946983	SYSTEM	\N	SYSTEM	\N
 \.
 
 
@@ -439,8 +435,8 @@ COPY kalendar.role (id, rolename, createdon, createdby, latestupdateon, latestup
 -- Data for Name: zoo_calendar_master; Type: TABLE DATA; Schema: kalendar; Owner: postgres
 --
 
-COPY kalendar.zoo_calendar_master (id, zoomasterid, createdon, createdby, lastupdateon, lastupdateby, openingclosingid) FROM stdin;
-1	2	2018-05-20 10:52:02.441805	SYSTEM	2018-05-20 10:52:02.441805	SYSTEM	1
+COPY kalendar.zoo_calendar_master (id, zoomasterid, createdon, createdby, lastupdateon, lastupdateby, openingclosingid, calendarday) FROM stdin;
+1	2	2018-05-20 10:52:02.441805	SYSTEM	2018-05-20 10:52:02.441805	SYSTEM	1	2018-05-20
 \.
 
 
@@ -466,14 +462,14 @@ SELECT pg_catalog.setval('kalendar.group_calendar_id_seq', 1, true);
 -- Name: group_master_id_seq; Type: SEQUENCE SET; Schema: kalendar; Owner: postgres
 --
 
-SELECT pg_catalog.setval('kalendar.group_master_id_seq', 10, true);
+SELECT pg_catalog.setval('kalendar.group_master_id_seq', 28, true);
 
 
 --
 -- Name: login_infromation_master_id_seq; Type: SEQUENCE SET; Schema: kalendar; Owner: postgres
 --
 
-SELECT pg_catalog.setval('kalendar.login_infromation_master_id_seq', 1, false);
+SELECT pg_catalog.setval('kalendar.login_infromation_master_id_seq', 6, true);
 
 
 --
@@ -568,6 +564,13 @@ CREATE UNIQUE INDEX group_master_groupcode_uindex ON kalendar.group_master USING
 
 
 --
+-- Name: login_information_master_groupid_uindex; Type: INDEX; Schema: kalendar; Owner: postgres
+--
+
+CREATE UNIQUE INDEX login_information_master_groupid_uindex ON kalendar.login_information_master USING btree (groupid);
+
+
+--
 -- Name: opening_closing_pattern_master_id_uindex; Type: INDEX; Schema: kalendar; Owner: postgres
 --
 
@@ -597,11 +600,19 @@ ALTER TABLE ONLY kalendar.group_calendar
 
 
 --
--- Name: login_information_master login_infromation_master_group_master_id_fk; Type: FK CONSTRAINT; Schema: kalendar; Owner: postgres
+-- Name: group_master group_master_zoo_master_id_fk; Type: FK CONSTRAINT; Schema: kalendar; Owner: postgres
+--
+
+ALTER TABLE ONLY kalendar.group_master
+    ADD CONSTRAINT group_master_zoo_master_id_fk FOREIGN KEY (zooid) REFERENCES kalendar.zoo_master(id);
+
+
+--
+-- Name: login_information_master login_information_master_group_master_id_fk; Type: FK CONSTRAINT; Schema: kalendar; Owner: postgres
 --
 
 ALTER TABLE ONLY kalendar.login_information_master
-    ADD CONSTRAINT login_infromation_master_group_master_id_fk FOREIGN KEY (groupid) REFERENCES kalendar.group_master(id);
+    ADD CONSTRAINT login_information_master_group_master_id_fk FOREIGN KEY (groupid) REFERENCES kalendar.group_master(id);
 
 
 --

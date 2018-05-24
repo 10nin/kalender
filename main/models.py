@@ -63,10 +63,12 @@ class Group_Master(MixInBase, Base):
     """
     groupcode = Column(String(10), unique=True)
     groupname = Column(String(200))
+    zoodid = Column(Integer, ForeignKey("zoo_master.id"), nullable=False)
 
-    def __init__(self, group_code,group_name):
+    def __init__(self, group_code,group_name, zooid):
         self.groupcode = group_code
         self.groupname = group_name
+        self.zoodid = zooid
 
 
 class Login_Information_Master(MixInBase, Base):
@@ -113,8 +115,10 @@ class Zoo_Calendar_Master(MixInBase, Base):
     and who columns.
     """
     zoomasterid = Column(Integer, ForeignKey("zoo_master.Id"), nullable=False)
+    calendarday = Column(Date, nullable=False)
     openingclosingid = Column(Integer, ForeignKey("opening_closing_pattern_master.id"), nullable=False)
 
-    def __init__(self, zooid, openingclosingid):
+    def __init__(self, zooid, day, openingclosingid):
         self.zoomasterid = zooid
+        self.calendarday = day
         self.openingclosingid = openingclosingid

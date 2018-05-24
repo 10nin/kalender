@@ -54,6 +54,11 @@ def show_monthly_schedule(request_date=''):
     """List of 'request_date' month schedule.
     :arg request_date: request date information of YYYYMM formatted string.
     :return request date schedule page."""
+    # check login
+    gcode = get_session_val('gcode')
+    if gcode is None:
+        redirect('/')
+
     if len(request_date) == 0:
         request_date = utils.get_current_date()
         redirect("/list/" + request_date)
@@ -76,6 +81,11 @@ def show_monthly_schedule(request_date=''):
 @app.route('/schedule')
 @app.route('/schedule/<request_date:re:\d{6}>')
 def show_schedule_input(request_date=''):
+    # check login
+    gcode = get_session_val('gcode')
+    if gcode is None:
+        redirect('/')
+
     if len(request_date) == 0:
         request_date = utils.get_current_date()
         redirect("/schedule/" + request_date)
@@ -114,14 +124,17 @@ def set_session_val(k, v):
     _s[k] = v
     _s.save()
 
+
 def get_session_val(k):
     _s = request.environ['beaker.session']
     return _s[k] if k in _s else None
+
 
 def delete_session_val(k):
     _s = request.environ['beaker.session']
     if k in _s:
         del _s[k]
+
 
 if __name__ == '__main__':
     run(app=apps, host="localhost", port=8080, debug=True, reloader=True)

@@ -36,6 +36,14 @@ def login_proc():
         return template("login.html", title="Kalendar - ログイン", message='グループIDかパスワードが間違っています')
 
 
+@app.route("/logout")
+def logout_proc():
+    gcode = get_session_val('gcode')
+    if gcode is not None:
+        delete_session_val('gcode')
+    redirect('/')
+
+
 @app.route("/menu")
 def show_main_menu():
     # check login

@@ -114,7 +114,7 @@ class Query:
         _s.close()
         return cal
 
-    def get_all_zoo_schedules(self, zooid, year, month):
+    def get_zoo_schedules(self, zooid, year, month):
         _s = self.SessionClass()
         sc = _s.query(Zoo_Calendar_Master).filter(Zoo_Calendar_Master.zoomasterid == zooid)\
         .filter(extract('year', Zoo_Calendar_Master.calendarday) == year)\

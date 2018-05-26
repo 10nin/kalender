@@ -100,10 +100,12 @@ class Opening_Closing_Pattern_Master(MixInBase, Base):
     """
     opening = Column(Time, nullable=False)
     closing = Column(Time, nullable=False)
+    timetype = Column(String(40))
 
-    def __init__(self, openingtime, closingtime):
+    def __init__(self, openingtime, closingtime, timetype):
         self.opening = openingtime
         self.closing = closingtime
+        self.timetype = timetype
 
 
 class Zoo_Calendar_Master(MixInBase, Base):

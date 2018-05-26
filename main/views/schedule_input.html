@@ -8,13 +8,16 @@
         <thead>
             <tr>
                 <th>日付</th>
+                <th>時間帯</th>
                 <th class="cell_head">活動する場合 ◯</th>
             </tr>
         </thead>
         <tbody>
             {% for s in gs %}
             <tr>
-                <td>{{s.calendarday}}</td>
+                <td>{{s['day']}}</td>
+                <td>{{s['time']}}</td>
+                <td>{{s['ox']}}</td>
             </tr>
             {% endfor %}
         </tbody>

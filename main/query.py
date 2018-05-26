@@ -123,11 +123,11 @@ class Query:
         _s.close()
         return sc
 
-    def get_group_calendar(self, gid: int):
+    def get_group_calendar(self, gid: int, calendarids: list):
         _s = self.SessionClass()
-        cal = _s.query(Zoo_Calendar_Master)\
-                .filter(Group_Calendar.zoocalendarid == Zoo_Calendar_Master.id
-                        and Group_Calendar.groupid == gid).all()
+        cal = _s.query(Group_Calendar)\
+                .filter(Group_Calendar.groupid == gid
+                        and Group_Calendar.zoocalendarid in calendarids).all()
         _s.close()
         return cal
 
@@ -138,6 +138,12 @@ class Query:
             c = Group_Calendar(g.id, calid)
             return self.insert_general(c)[0]
         return False
+
+    def get_time_type(self, ocid: int) -> str:
+        _s = self.SessionClass()
+        c = _s.query(Opening_Closing_Pattern_Master).filter(Opening_Closing_Pattern_Master.id == ocid).first()
+        _s.close()
+        return c.timetype
 
     def get_all_zoo(self):
         """get all zoo from ZOO_MASTER table."""

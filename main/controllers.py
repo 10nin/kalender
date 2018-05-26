@@ -65,7 +65,17 @@ class Controller:
 
     def get_schedule(self, group_code, year, month):
         g = self.db.get_group(group_code=group_code)
-        ret = self.db.get_all_zoo_schedules(g.zooid, year, month)
+        sched = self.db.get_zoo_schedules(g.zooid, year, month)
+        calendarids = [i.id for i in sched]
+        _gcal = self.db.get_group_calendar(g.id, calendarids)
+        ingcal = [i.zoocalendarid for i in _gcal]
+        ret = list()
+        for s in sched:
+            r = dict()
+            r['day'] = s.calendarday
+            r['time'] = self.db.get_time_type(s.openingclosingid)
+            r['ox'] = 1 if s.id in ingcal else 0
+            ret.append(r)
         return ret
 
     def get_group_name(self, group_code):

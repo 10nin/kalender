@@ -17,7 +17,13 @@
             <tr>
                 <td>{{s['day']}}</td>
                 <td>{{s['time']}}</td>
-                <td>{{s['ox']}}</td>
+                <td>
+                    <select name="ox" style="width: 75px;">
+                        <option value="{{s['day']}}-{{s['time']}}-0" {% if s['ox'] == 0 %} selected {% endif
+                        %}>×</option>
+                        <option value="{{s['day']}}-{{s['time']}}-1" {% if s['ox'] == 1 %} selected {% endif %}>○</option>
+                    </select>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

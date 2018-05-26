@@ -100,7 +100,7 @@ class Opening_Closing_Pattern_Master(MixInBase, Base):
     """
     opening = Column(Time, nullable=False)
     closing = Column(Time, nullable=False)
-    timetype = Column(String(40))
+    timetype = Column(String(40), unique=True)
 
     def __init__(self, openingtime, closingtime, timetype):
         self.opening = openingtime

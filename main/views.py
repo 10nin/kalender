@@ -18,6 +18,7 @@ app = Bottle()
 app.install(LoggingPlugin(app.config))
 apps = SessionMiddleware(app, session_ops)
 
+ctrl = Controller("../setup.cfg")
 
 @app.route("/")
 def show_root():
@@ -28,8 +29,7 @@ def show_root():
 def login_proc():
     group_code = request.forms.group_code
     password = request.forms.passwd
-    c = Controller("../setup.cfg")
-    if c.is_login_success(groupcode=group_code,passwd=password):
+    if ctrl.is_login_success(groupcode=group_code,passwd=password):
         set_session_val('gcode', group_code)
         redirect("/menu")
     else:
@@ -51,8 +51,7 @@ def show_main_menu():
     if gcode is None:
         redirect('/')
     else:
-        c = Controller("../setup.cfg")
-        gname = c.get_group_name(group_code=gcode)
+        gname = ctrl.get_group_name(group_code=gcode)
         return template("menu.html", title="Kalendar - メインメニュー", login=gname)
 
 
@@ -102,9 +101,10 @@ def show_schedule_input(request_date=''):
         # if date invalid then return bad request error.
         return HTTPResponse(status=400, body='Request date was invalid.')
     year, month = utils.split_request_date(request_date)
-
+    group_schedule = ctrl.get_group_calendar(group_code=gcode)
     title = f"Kalendar - {year}年{month}月の活動予定入力"
-    return template("schedule_input.html", title=title, year=year, month=month)
+    return template("schedule_input.html", title=title, year=year, month=month, gs=group_schedule)
+
 
 # TODO: implement help page
 # ---- Static Routes ----

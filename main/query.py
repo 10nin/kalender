@@ -110,10 +110,7 @@ class Query:
 
     def get_zoo_calendar(self, calid):
         _s = self.SessionClass()
-        cal = _s.query(Zoo_Calendar_Master.id,
-                       Zoo_Calendar_Master.zoomasterid,
-                       Zoo_Calendar_Master.openingdatetime,
-                       Zoo_Calendar_Master.closingdatetime).filter(Zoo_Calendar_Master.id == calid).all()
+        cal = _s.query(Zoo_Calendar_Master).filter(Zoo_Calendar_Master.id == calid).all()
         _s.close()
         return cal
 

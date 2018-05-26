@@ -31,6 +31,8 @@ def login_proc():
     password = request.forms.passwd
     if ctrl.is_login_success(groupcode=group_code,passwd=password):
         set_session_val('gcode', group_code)
+        gname = ctrl.get_group_name(group_code=group_code)
+        set_session_val('gname', gname)
         redirect("/menu")
     else:
         return template("login.html", title="Kalendar - ログイン", message='グループIDかパスワードが間違っています')
@@ -51,7 +53,7 @@ def show_main_menu():
     if gcode is None:
         redirect('/')
     else:
-        gname = ctrl.get_group_name(group_code=gcode)
+        gname = get_session_val('gname')
         return template("menu.html", title="Kalendar - メインメニュー", login=gname)
 
 
@@ -100,9 +102,9 @@ def show_schedule_input(request_date=''):
     if not utils.valid_date(request_date):
         # if date invalid then return bad request error.
         return HTTPResponse(status=400, body='Request date was invalid.')
-    gname = ctrl.get_group_name(group_code=gcode)
+    gname = get_session_val('gname')
     year, month = utils.split_request_date(request_date)
-    group_schedule = ctrl.get_group_calendar(group_code=gcode)
+    group_schedule = ctrl.get_schedule(group_code=gcode, year=year, month=month)
     title = f"Kalendar - {year}年{month}月の活動予定入力"
     return template("schedule_input.html", title=title, year=year, month=month, gs=group_schedule, login=gname)
 

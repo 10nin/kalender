@@ -1,6 +1,6 @@
 # coding=utf-8
 from main import utils
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, extract
 from sqlalchemy.orm import sessionmaker
 from main.models import *
 
@@ -114,9 +114,12 @@ class Query:
         _s.close()
         return cal
 
-    def get_all_zoo_schedules(self, zooid):
+    def get_all_zoo_schedules(self, zooid, year, month):
         _s = self.SessionClass()
-        sc = _s.query(Zoo_Calendar_Master).filter(Zoo_Calendar_Master.zoomasterid == zooid).all()
+        sc = _s.query(Zoo_Calendar_Master).filter(Zoo_Calendar_Master.zoomasterid == zooid)\
+        .filter(extract('year', Zoo_Calendar_Master.calendarday) == year)\
+        .filter(extract('month', Zoo_Calendar_Master.calendarday) == month)\
+        .order_by(Zoo_Calendar_Master.calendarday).all()
         _s.close()
         return sc
 
@@ -146,7 +149,7 @@ class Query:
     def get_all_groups(self):
         """get all groups from GROUP_MASTER table."""
         _s = self.SessionClass()
-        g = s.query(Group_Master).all()
+        g = _s.query(Group_Master).all()
         _s.close()
         return g
 

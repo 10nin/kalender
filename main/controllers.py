@@ -63,9 +63,9 @@ class Controller:
         else:
             return ret
 
-    def get_group_calendar(self, group_code):
+    def get_schedule(self, group_code, year, month):
         g = self.db.get_group(group_code=group_code)
-        ret = self.db.get_all_zoo_schedules(g.zooid)
+        ret = self.db.get_all_zoo_schedules(g.zooid, year, month)
         return ret
 
     def get_group_name(self, group_code):

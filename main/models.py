@@ -63,12 +63,12 @@ class Group_Master(MixInBase, Base):
     """
     groupcode = Column(String(10), unique=True)
     groupname = Column(String(200))
-    zoodid = Column(Integer, ForeignKey("zoo_master.id"), nullable=False)
+    zooid = Column(Integer, ForeignKey("zoo_master.id"), nullable=False)
 
     def __init__(self, group_code,group_name, zooid):
         self.groupcode = group_code
         self.groupname = group_name
-        self.zoodid = zooid
+        self.zooid = zooid
 
 
 class Login_Information_Master(MixInBase, Base):

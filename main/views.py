@@ -100,10 +100,11 @@ def show_schedule_input(request_date=''):
     if not utils.valid_date(request_date):
         # if date invalid then return bad request error.
         return HTTPResponse(status=400, body='Request date was invalid.')
+    gname = ctrl.get_group_name(group_code=gcode)
     year, month = utils.split_request_date(request_date)
     group_schedule = ctrl.get_group_calendar(group_code=gcode)
     title = f"Kalendar - {year}年{month}月の活動予定入力"
-    return template("schedule_input.html", title=title, year=year, month=month, gs=group_schedule)
+    return template("schedule_input.html", title=title, year=year, month=month, gs=group_schedule, login=gname)
 
 
 # TODO: implement help page

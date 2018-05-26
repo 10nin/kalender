@@ -114,6 +114,12 @@ class Query:
         _s.close()
         return cal
 
+    def get_all_zoo_schedules(self, zooid):
+        _s = self.SessionClass()
+        sc = _s.query(Zoo_Calendar_Master).filter(Zoo_Calendar_Master.zoomasterid == zooid).all()
+        _s.close()
+        return sc
+
     def get_group_calendar(self, gid: int):
         _s = self.SessionClass()
         cal = _s.query(Zoo_Calendar_Master)\

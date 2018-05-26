@@ -392,6 +392,7 @@ ALTER TABLE ONLY kalendar.zoo_master ALTER COLUMN id SET DEFAULT nextval('kalend
 --
 
 COPY kalendar.group_calendar (id, groupid, zoocalendarid, createdon, createdby, lastupdateon, lastupdateby) FROM stdin;
+2	28	1	2018-05-25 09:05:06.905505	SYSTEM	2018-05-25 09:05:06.905505	SYSTEM
 \.
 
 
@@ -436,7 +437,7 @@ COPY kalendar.role (id, rolename, createdon, createdby, latestupdateon, latestup
 --
 
 COPY kalendar.zoo_calendar_master (id, zoomasterid, createdon, createdby, lastupdateon, lastupdateby, openingclosingid, calendarday) FROM stdin;
-1	2	2018-05-20 10:52:02.441805	SYSTEM	2018-05-20 10:52:02.441805	SYSTEM	1	2018-05-20
+1	1	2018-05-20 10:52:02.441805	SYSTEM	2018-05-20 10:52:02.441805	SYSTEM	1	2018-05-20
 \.
 
 
@@ -455,7 +456,7 @@ COPY kalendar.zoo_master (id, zooname, createdon, createdby, latestupdateon, lat
 -- Name: group_calendar_id_seq; Type: SEQUENCE SET; Schema: kalendar; Owner: postgres
 --
 
-SELECT pg_catalog.setval('kalendar.group_calendar_id_seq', 1, true);
+SELECT pg_catalog.setval('kalendar.group_calendar_id_seq', 2, true);
 
 
 --

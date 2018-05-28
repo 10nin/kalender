@@ -65,6 +65,7 @@ def show_monthly_schedule(request_date=''):
     :return request date schedule page."""
     # check login
     gcode = get_session_val('gcode')
+    gname = get_session_val('gname')
     if gcode is None:
         redirect('/')
 
@@ -84,7 +85,7 @@ def show_monthly_schedule(request_date=''):
     title = f"Kalendar - {year}年{month}月の予定"
     # generate request_date days
     # TODO: implement show active groups.
-    return template("calendar.html", title=title, year=year, prev_month=prev_month, month=month, next_month=next_month, days=days)
+    return template("calendar.html", title=title, year=year, prev_month=prev_month, month=month, next_month=next_month, days=days, login=gname)
 
 
 @app.route('/schedule')

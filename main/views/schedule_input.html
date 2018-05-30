@@ -19,7 +19,9 @@
 <div class="row">
     <div class="three columns">&nbsp;</div>
     <div class="six columns">
-        <form name="schedule_info" action="/" method="post" enctype="text/plain" accept-charset="UTF-8">
+        <form name="schedule_info" action="/schedule" method="post" accept-charset="UTF-8">
+            <input type="hidden" name="year" value="{{year}}">
+            <input type="hidden" name="month" value="{{month}}">
             <table>
                 <caption>{{year}}年{% if month < 10 %}&ensp;{% endif %}{{month}}月の活動予定入力</caption>
                 <thead>
@@ -32,14 +34,13 @@
                 <tbody>
                     {% for s in gs %}
                     <tr>
-                        <td><input type="hidden" name="day" value="{{s['day']}}">{{s['day']}}</td>
-                        <td><input type="hidden" name="timetype"
-                                   value="{% if s['time'] == '昼' %}0{% else %}1{% endif %}">{{s['time']}}</td>
+                        <td>{{s['day']}}</td>
+                        <td>{{s['time']}}</td>
                         <td>
                             <select name="ox" style="width: 75px;">
-                                <option value="0" {% if s['ox'] == 0 %}selected{% endif
+                                <option value="{{s['id']}}-0" {% if s['ox'] == 0 %}selected{% endif
                                 %}>×</option>
-                                <option value="1" {% if s['ox'] == 1 %}selected{% endif %}>○</option>
+                                <option value="{{s['id']}}-1" {% if s['ox'] == 1 %}selected{% endif %}>○</option>
                             </select>
                         </td>
                     </tr>

@@ -72,6 +72,7 @@ class Controller:
         ret = list()
         for s in sched:
             r = dict()
+            r['id'] = s.id
             r['day'] = s.calendarday
             r['time'] = self.db.get_time_type(s.openingclosingid)
             r['ox'] = 1 if s.id in ingcal else 0

@@ -105,9 +105,14 @@ def show_schedule_input(request_date=''):
         return HTTPResponse(status=400, body='Request date was invalid.')
     gname = get_session_val('gname')
     year, month = utils.split_request_date(request_date)
+    prev_month, next_month = utils.get_prev_and_next_month(year, month)
     group_schedule = ctrl.get_schedule(group_code=gcode, year=year, month=month)
     title = f"Kalendar - {year}年{month}月の活動予定入力"
-    return template("schedule_input.html", title=title, year=year, month=month, gs=group_schedule, login=gname)
+    return template("schedule_input.html",
+                    title=title, year=year, month=month,
+                    prev_month=prev_month, next_month=next_month,
+                    gs=group_schedule, login=gname)
+
 
 @app.route("/schedule", method="POST")
 def proc_schedule_input():

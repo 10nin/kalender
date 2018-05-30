@@ -21,7 +21,11 @@
     <div class="six columns">
         <form name="schedule_info" action="/schedule" method="post" accept-charset="UTF-8">
             <table>
-                <caption>{{year}}年{% if month < 10 %}&ensp;{% endif %}{{month}}月の活動予定入力</caption>
+                <caption>
+                    <a href="/schedule/{{prev_month}}">&lt;</a>
+                    &emsp;{{year}}年{% if month < 10 %}&ensp;{% endif %}{{month}}月の活動予定入力&emsp;
+                    <a href="/schedule/{{next_month}}">&gt;</a>
+                </caption>
                 <thead>
                     <tr>
                         <th>日付</th>

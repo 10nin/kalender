@@ -109,6 +109,16 @@ def show_schedule_input(request_date=''):
     title = f"Kalendar - {year}年{month}月の活動予定入力"
     return template("schedule_input.html", title=title, year=year, month=month, gs=group_schedule, login=gname)
 
+@app.route("/schedule", method="POST")
+def proc_schedule_input():
+    # check login
+    gcode = get_session_val('gcode')
+    if gcode is None:
+        redirect('/')
+
+    schedule_list = request.forms.dict['ox']
+    ctrl.input_group_schedule(group_code=gcode, schedule_list=schedule_list)
+    redirect("/schedule")
 
 # TODO: implement help page
 # ---- Static Routes ----

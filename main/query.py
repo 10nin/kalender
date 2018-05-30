@@ -117,19 +117,32 @@ class Query:
     def get_zoo_schedules(self, zooid, year, month):
         _s = self.SessionClass()
         sc = _s.query(Zoo_Calendar_Master).filter(Zoo_Calendar_Master.zoomasterid == zooid)\
-        .filter(extract('year', Zoo_Calendar_Master.calendarday) == year)\
-        .filter(extract('month', Zoo_Calendar_Master.calendarday) == month)\
-        .order_by(Zoo_Calendar_Master.calendarday).all()
+               .filter(extract('year', Zoo_Calendar_Master.calendarday) == year)\
+               .filter(extract('month', Zoo_Calendar_Master.calendarday) == month)\
+               .order_by(Zoo_Calendar_Master.calendarday).all()
         _s.close()
         return sc
 
-    def get_group_calendar(self, gid: int, calendarids: list):
+    def get_group_calendars(self, gid: int, calendarids: list):
         _s = self.SessionClass()
         cal = _s.query(Group_Calendar)\
-                .filter(Group_Calendar.groupid == gid
-                        and Group_Calendar.zoocalendarid in calendarids).all()
+                .filter(Group_Calendar.groupid == gid and Group_Calendar.zoocalendarid in calendarids).all()
         _s.close()
         return cal
+
+    def get_group_calendar(self, gid: int, calendarid: int):
+        _s = self.SessionClass()
+        c = _s.query(Group_Calendar)\
+              .filter(Group_Calendar.groupid == gid)\
+              .filter(Group_Calendar.zoocalendarid == calendarid).first()
+        _s.close()
+        return c
+
+    def delete_group_calendar(self, gc: Group_Calendar):
+        return self.delete_general(gc)
+
+    def insert_group_calendar(self, gc: Group_Calendar):
+        return self.insert_general(gc)
 
     def set_group_calendar(self, calid: int, group_code: str):
         """insert date time of group activity to GROUP_CALENDAR table."""

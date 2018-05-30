@@ -46,7 +46,7 @@ class Group_Calendar(MixInBase, Base):
     and who columns.
     """
     groupid = Column(Integer, ForeignKey("group_master.id"), nullable=False)
-    zoocalendarid = Column(Integer, ForeignKey("zoo_calendar.id"), nullable=False)
+    zoocalendarid = Column(Integer, ForeignKey("zoo_calendar_master.id"), nullable=False)
 
     def __init__(self, gid, zoocalendarid):
         self.groupid = gid

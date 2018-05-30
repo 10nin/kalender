@@ -67,7 +67,7 @@ class Controller:
         g = self.db.get_group(group_code=group_code)
         sched = self.db.get_zoo_schedules(g.zooid, year, month)
         calendarids = [i.id for i in sched]
-        _gcal = self.db.get_group_calendar(g.id, calendarids)
+        _gcal = self.db.get_group_calendars(g.id, calendarids)
         ingcal = [i.zoocalendarid for i in _gcal]
         ret = list()
         for s in sched:
@@ -85,6 +85,20 @@ class Controller:
             return ""
         else:
             return g.groupname
+
+    def input_group_schedule(self, group_code, schedule_list):
+        g = self.db.get_group(group_code=group_code)
+        for s in schedule_list:
+            cid, ox = s.split('-')
+            cid = int(cid)
+            ext = self.db.get_group_calendar(gid=g.id, calendarid=cid)
+            # if calendar is exists on table and ox is 'x' then delete this schedule.
+            if ext is not None and ox == 'x':
+                self.db.delete_group_calendar(ext)
+            # if calendar is not exists on table and ox is 'o' then insert new schedule.
+            elif ext is None and ox == 'o':
+                obj = models.Group_Calendar(gid=g.id, zoocalendarid=cid)
+                self.db.insert_group_calendar(obj)
 
 
 if __name__ == "__main__":

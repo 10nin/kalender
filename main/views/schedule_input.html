@@ -20,8 +20,6 @@
     <div class="three columns">&nbsp;</div>
     <div class="six columns">
         <form name="schedule_info" action="/schedule" method="post" accept-charset="UTF-8">
-            <input type="hidden" name="year" value="{{year}}">
-            <input type="hidden" name="month" value="{{month}}">
             <table>
                 <caption>{{year}}年{% if month < 10 %}&ensp;{% endif %}{{month}}月の活動予定入力</caption>
                 <thead>
@@ -38,9 +36,9 @@
                         <td>{{s['time']}}</td>
                         <td>
                             <select name="ox" style="width: 75px;">
-                                <option value="{{s['id']}}-0" {% if s['ox'] == 0 %}selected{% endif
+                                <option value="{{s['id']}}-x" {% if s['ox'] == 0 %}selected{% endif
                                 %}>×</option>
-                                <option value="{{s['id']}}-1" {% if s['ox'] == 1 %}selected{% endif %}>○</option>
+                                <option value="{{s['id']}}-o" {% if s['ox'] == 1 %}selected{% endif %}>○</option>
                             </select>
                         </td>
                     </tr>

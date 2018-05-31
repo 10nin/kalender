@@ -1,6 +1,38 @@
 {% extends "base.html" %}
 {% block contents %}
-
+<div class="row">
+    <div class="ten columns">ログイングループ名：{{login}}</div>
+    <div class="one column" style="vertical-align: middle;"><a href="/menu" target="_parent"><img
+            src="/static/img/return.png" alt="メニューに戻る" width="32" height="32"></a></div>
+    <div class="one column" style="vertical-align: middle;"><a href="/logout" target="_parent"><img
+            src="/static/img/logout.png" alt="ログアウト" width="32" height="32"></a></div>
+</div>
+<div class="row">
+<hr>
+</div>
+<div class="row">
+    <div class="three columns">&nbsp;</div>
+    <div class="six columns">
+        <table>
+            <caption>
+                {{year}}年{{month}}月{{day}}日の活動グループ一覧
+            </caption>
+            <thead>
+                <tr>
+                    <th>この日に活動するグループ</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for g in gs %}
+                <tr>
+                    <td>{{g.name}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="three columns">&nbsp;</div>
+</div>
 {% endblock %}
 {% block footer %}
 {{super()}}

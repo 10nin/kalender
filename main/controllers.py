@@ -32,7 +32,7 @@ class Controller:
         stored_hash = self.db.get_passwordhash(gid)
         return current_hash == stored_hash
 
-    def group_registration(self, group_code, group_name, passwd):
+    def group_registration(self, group_code, group_name, passwd, zooid):
         group_name_len = self.db.get_column_length(models.Group_Master.groupname)
         group_code_len = self.db.get_column_length(models.Group_Master.groupcode)
 
@@ -42,7 +42,7 @@ class Controller:
             # and group_name length is less than field length.
             return None
         else:
-            _g = models.Group_Master(group_code=group_code, group_name=group_name)
+            _g = models.Group_Master(group_code=group_code, group_name=group_name, zooid=zooid)
             ret = self.db.insert_general(_g)
             if ret[0]:
                 _g = self.db.get_group(group_code=group_code)
@@ -103,8 +103,8 @@ class Controller:
 
 if __name__ == "__main__":
     c = Controller("../setup.cfg")
-    gcode = '00-0000-00'
+    gcode = '10-0000-00'
     passwd = 'abcdefg'
-    #c.group_registration(group_code=gcode, group_name='testgroup', passwd=passwd)
+    c.group_registration(group_code=gcode, group_name='testgroup', passwd=passwd, zooid=1)
     print(c.is_login_success(groupcode=gcode, passwd=passwd))
 

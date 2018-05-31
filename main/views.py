@@ -89,6 +89,30 @@ def show_monthly_schedule(request_date=''):
                     title=title, year=year, login=gname,
                     prev_month=prev_month, month=month, next_month=next_month, days=days)
 
+@app.route('/list/group/<request_date:re:\d{8}>')
+def show_group_schedule_details(request_date=''):
+    gcode = get_session_val('gcode')
+    gname = get_session_val('gname')
+    if gcode is None:
+        redirect('/')
+
+    if len(request_date) == 0:
+        # redirect to list page
+        request_date = utils.get_current_date()
+        redirect("/list/" + request_date)
+
+    if not utils.valid_date(request_date):
+        # if date invalid then return bad request error.
+        # TODO: change error message
+        return HTTPResponse(status=400, body='Request date was invalid.')
+
+    year, month, day = utils.split_request_date(request_date)
+
+    title = f"Kalendar - {year}年{month}月{day}日の活動グループ"
+    # generate request_date days
+    # TODO: implement show active groups.
+    return template("group_list.html",
+                    title=title, year=year, month=month, day=day, login=gname)
 
 @app.route('/schedule')
 @app.route('/schedule/<request_date:re:\d{6}>')

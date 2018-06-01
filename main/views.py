@@ -98,15 +98,15 @@ def show_group_schedule_details(request_date=''):
 
     if len(request_date) == 0:
         # redirect to list page
-        request_date = utils.get_current_date()
+        request_date = utils.get_current_date_full()
         redirect("/list/" + request_date)
 
-    if not utils.valid_date(request_date):
+    if not utils.validate_date_full(request_date):
         # if date invalid then return bad request error.
         # TODO: change error message
         return HTTPResponse(status=400, body='Request date was invalid.')
 
-    year, month, day = utils.split_request_date(request_date)
+    year, month, day = utils.split_request_date_full(request_date)
 
     title = f"Kalendar - {year}年{month}月{day}日の活動グループ"
     # generate request_date days

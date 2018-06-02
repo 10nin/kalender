@@ -152,6 +152,18 @@ class Query:
             return self.insert_general(c)[0]
         return False
 
+    def get_zoocalendar_groupcalendar_joined(self, year, month):
+        _s = self.SessionClass()
+        r = _s.query(Zoo_Calendar_Master.calendarday, Group_Master.groupcode,Opening_Closing_Pattern_Master.id)\
+              .filter(extract('year', Zoo_Calendar_Master.calendarday) == year) \
+              .filter(extract('month', Zoo_Calendar_Master.calendarday) == month) \
+              .order_by(Zoo_Calendar_Master.calendarday).all()
+        _s.close()
+        return  r
+
+    def get_exists_calendar(self, year: int, month: int, days: list) -> list:
+        pass
+
     def get_time_type(self, ocid: int) -> str:
         _s = self.SessionClass()
         c = _s.query(Opening_Closing_Pattern_Master).filter(Opening_Closing_Pattern_Master.id == ocid).first()

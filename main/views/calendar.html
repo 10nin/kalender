@@ -40,7 +40,8 @@
                     {% for d in w %}
                     <td>
                         {% if d != 0 %}
-                        {{d}}
+                        <a href="/list/group/{{'%04d' % year}}{{'%02d' % month}}{{'%02d' % d}}" target="_parent">{{d
+                            }}</a>
                         {% else %}
                         &emsp;
                         {% endif %}

@@ -154,7 +154,10 @@ class Query:
 
     def get_zoocalendar_groupcalendar_joined(self, year, month):
         _s = self.SessionClass()
-        r = _s.query(Zoo_Calendar_Master.calendarday, Group_Master.groupcode,Opening_Closing_Pattern_Master.id)\
+        r = _s.query(Zoo_Calendar_Master, Group_Calendar, Group_Master, Opening_Closing_Pattern_Master)\
+              .join(Group_Calendar, Zoo_Calendar_Master.id == Group_Calendar.zoocalendarid) \
+              .join(Group_Master, Group_Calendar.groupid == Group_Master.id) \
+              .join(Opening_Closing_Pattern_Master, Opening_Closing_Pattern_Master.id == Zoo_Calendar_Master.openingclosingid) \
               .filter(extract('year', Zoo_Calendar_Master.calendarday) == year) \
               .filter(extract('month', Zoo_Calendar_Master.calendarday) == month) \
               .order_by(Zoo_Calendar_Master.calendarday).all()

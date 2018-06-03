@@ -165,7 +165,8 @@ class Query:
         return  r
 
     def get_exists_calendar(self, year: int, month: int, days: list) -> list:
-        pass
+        base_data = self.get_zoocalendar_groupcalendar_joined(year, month)
+
 
     def get_time_type(self, ocid: int) -> str:
         _s = self.SessionClass()

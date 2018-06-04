@@ -164,10 +164,10 @@ class Query:
         _s.close()
         return  r
 
-    def get_exists_calendar(self, year: int, month: int, days: list) -> list:
-        ret = list()
+    def get_exists_calendar(self, year: int, month: int, days: list) -> dict:
+        ret = dict()
         for d in days:
-            ret.append(self.is_exits_in_calendar(year, month, d))
+            ret[d] = self.is_exits_in_calendar(year, month, d)
         return  ret
 
     def is_exits_in_calendar(self, year: int, month: int, day: int) -> bool:

@@ -165,8 +165,22 @@ class Query:
         return  r
 
     def get_exists_calendar(self, year: int, month: int, days: list) -> list:
-        base_data = self.get_zoocalendar_groupcalendar_joined(year, month)
+        ret = list()
+        for d in days:
+            ret.append(self.is_exits_in_calendar(year, month, d))
+        return  ret
 
+    def is_exits_in_calendar(self, year: int, month: int, day: int) -> bool:
+        cal_data = self.get_zoocalendar_groupcalendar_joined(year, month)
+        if day == 0:
+            return False # GUARD for convert exception.
+        for c in cal_data:
+            if self._is_same_day(c.Zoo_Calendar_Master.calendarday, year, month, day):
+                return True
+        return False
+
+    def _is_same_day(self, calendarday, year, month, day) -> bool:
+        return calendarday.year == year and calendarday.month == month and calendarday.day == day
 
     def get_time_type(self, ocid: int) -> str:
         _s = self.SessionClass()

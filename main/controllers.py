@@ -100,13 +100,16 @@ class Controller:
                 obj = models.Group_Calendar(gid=g.id, zoocalendarid=cid)
                 self.db.insert_group_calendar(obj)
 
-    def get_exists_schedules(self, year, month):
-        ret = self.db.get_zoocalendar_groupcalendar_joined(year, month)
+    def get_exists_schedules(self, year, month, days):
+        flat_days = utils.flatten(days)
+        ret = self.db.get_exists_calendar(year, month, flat_days)
         return ret
 
 if __name__ == "__main__":
     c = Controller("../setup.cfg")
-    c.get_exists_schedules(2018,5)
+    days = utils.generate_days(2018, 5)
+    ret = c.get_exists_schedules(2018, 5, days)
+
 #    gcode = '10-0000-00'
 #    passwd = 'abcdefg'
 #    c.group_registration(group_code=gcode, group_name='testgroup', passwd=passwd, zooid=1)

@@ -120,3 +120,7 @@ def get_prev_and_next_month(year: int, month: int) -> (str, str):
     prev_month = dt - relativedelta(months=1)
     next_month = dt + relativedelta(months=1)
     return prev_month.strftime('%Y%m'), next_month.strftime('%Y%m')
+
+def flatten(lst: list) -> list:
+    from itertools import chain
+    return list(chain.from_iterable(lst))

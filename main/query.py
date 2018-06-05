@@ -152,7 +152,7 @@ class Query:
             return self.insert_general(c)[0]
         return False
 
-    def get_zoocalendar_groupcalendar_joined(self, year, month):
+    def _get_zoocalendar_groupcalendar_joined(self, year, month):
         _s = self.SessionClass()
         r = _s.query(Zoo_Calendar_Master, Group_Calendar, Group_Master, Opening_Closing_Pattern_Master)\
               .join(Group_Calendar, Zoo_Calendar_Master.id == Group_Calendar.zoocalendarid) \
@@ -162,7 +162,15 @@ class Query:
               .filter(extract('month', Zoo_Calendar_Master.calendarday) == month) \
               .order_by(Zoo_Calendar_Master.calendarday).all()
         _s.close()
-        return  r
+        return r
+
+    def get_scheduled_groups(self, year:int, month:int, day):
+        groups = self._get_zoocalendar_groupcalendar_joined(year, month)
+        ret = []
+        for g in groups:
+            if self._is_same_day(g.Zoo_Calendar_Master.calendarday, year, month, day):
+                ret.append(g)
+        return ret
 
     def get_exists_calendar(self, year: int, month: int, days: list) -> dict:
         ret = dict()
@@ -171,7 +179,7 @@ class Query:
         return  ret
 
     def is_exits_in_calendar(self, year: int, month: int, day: int) -> bool:
-        cal_data = self.get_zoocalendar_groupcalendar_joined(year, month)
+        cal_data = self._get_zoocalendar_groupcalendar_joined(year, month)
         if day == 0:
             return False # GUARD for convert exception.
         for c in cal_data:

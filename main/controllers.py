@@ -100,6 +100,9 @@ class Controller:
                 obj = models.Group_Calendar(gid=g.id, zoocalendarid=cid)
                 self.db.insert_group_calendar(obj)
 
+    def get_scheduled_groups(self, year, month, day):
+        return self.db.get_scheduled_groups(year, month, day)
+
     def get_exists_schedules(self, year, month, days):
         flat_days = utils.flatten(days)
         ret = self.db.get_exists_calendar(year, month, flat_days)

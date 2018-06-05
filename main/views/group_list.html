@@ -2,7 +2,7 @@
 {% block contents %}
 <div class="row">
     <div class="ten columns">ログイングループ名：{{login}}</div>
-    <div class="one column" style="vertical-align: middle;"><a href="/menu" target="_parent"><img
+    <div class="one column" style="vertical-align: middle;"><a href="/list/{{listday}}" target="_parent"><img
             src="/static/img/return.png" alt="メニューに戻る" width="32" height="32"></a></div>
     <div class="one column" style="vertical-align: middle;"><a href="/logout" target="_parent"><img
             src="/static/img/logout.png" alt="ログアウト" width="32" height="32"></a></div>
@@ -25,7 +25,8 @@
             <tbody>
                 {% for g in gs %}
                 <tr>
-                    <td>{{g.name}}</td>
+                    <td>{{g.Group_Master.name}}</td>
+                    <td>{{g.Opening_Closing_Pattern.timetype}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

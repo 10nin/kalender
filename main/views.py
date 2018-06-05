@@ -99,7 +99,7 @@ def show_group_schedule_details(request_date=''):
 
     if len(request_date) == 0:
         # redirect to list page
-        request_date = utils.get_current_date_full()
+        request_date = utils.get_current_date()
         redirect("/list/" + request_date)
 
     if not utils.validate_date_full(request_date):
@@ -108,12 +108,12 @@ def show_group_schedule_details(request_date=''):
         return HTTPResponse(status=400, body='Request date was invalid.')
 
     year, month, day = utils.split_request_date_full(request_date)
-
+    listday = '%04d%02d' % (year, month)
     title = f"Kalendar - {year}年{month}月{day}日の活動グループ"
-    # generate request_date days
-    # TODO: implement show active groups.
+    gs = ctrl.get_scheduled_groups(year, month, day)
     return template("group_list.html",
-                    title=title, year=year, month=month, day=day, login=gname)
+                    title=title, year=year, month=month, day=day, login=gname, listday=listday,
+                    gs=gs)
 
 @app.route('/schedule')
 @app.route('/schedule/<request_date:re:\d{6}>')

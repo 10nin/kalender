@@ -20,13 +20,14 @@
             <thead>
                 <tr>
                     <th>この日に活動するグループ</th>
+                    <th>活動予定の時間帯</th>
                 </tr>
             </thead>
             <tbody>
                 {% for g in gs %}
                 <tr>
-                    <td>{{g.Group_Master.name}}</td>
-                    <td>{{g.Opening_Closing_Pattern.timetype}}</td>
+                    <td>{{g.Group_Master.groupname}}</td>
+                    <td>{{g.Opening_Closing_Pattern_Master.timetype}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

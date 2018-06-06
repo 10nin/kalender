@@ -1,5 +1,5 @@
 # coding=utf-8
-
+import os
 from bottle import Bottle, run, redirect, request, HTTPResponse, static_file, jinja2_template as template
 from bottle_log import LoggingPlugin
 from beaker.middleware import SessionMiddleware
@@ -17,8 +17,8 @@ session_ops = {
 app = Bottle()
 app.install(LoggingPlugin(app.config))
 apps = SessionMiddleware(app, session_ops)
-
-ctrl = Controller("../setup.cfg")
+db_url = os.environ["DB_URL"]
+ctrl = Controller(db_url)
 
 @app.route("/")
 def show_root():

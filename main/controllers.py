@@ -5,10 +5,13 @@ from main.query import Query
 
 
 class Controller:
-    def __init__(self, config_filepath):
-        cfg = configparser.ConfigParser()
-        cfg.read(config_filepath, encoding="UTF-8")
-        url = cfg["DATABASE"]["url"]
+    #def __init__(self, config_filepath):
+    #    cfg = configparser.ConfigParser()
+    #    cfg.read(config_filepath, encoding="UTF-8")
+    #    url = cfg["DATABASE"]["url"]
+    #    self.db = Query(db_path=url)
+
+    def __init__(self, url):
         self.db = Query(db_path=url)
 
     def get_all_groups(self):

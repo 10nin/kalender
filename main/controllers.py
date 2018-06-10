@@ -5,12 +5,6 @@ from main.query import Query
 
 
 class Controller:
-    #def __init__(self, config_filepath):
-    #    cfg = configparser.ConfigParser()
-    #    cfg.read(config_filepath, encoding="UTF-8")
-    #    url = cfg["DATABASE"]["url"]
-    #    self.db = Query(db_path=url)
-
     def __init__(self, url):
         self.db = Query(db_path=url)
 
@@ -111,13 +105,6 @@ class Controller:
         ret = self.db.get_exists_calendar(year, month, flat_days)
         return ret
 
+
 if __name__ == "__main__":
-    c = Controller("../setup.cfg")
-    days = utils.generate_days(2018, 5)
-    ret = c.get_exists_schedules(2018, 5, days)
-
-#    gcode = '10-0000-00'
-#    passwd = 'abcdefg'
-#    c.group_registration(group_code=gcode, group_name='testgroup', passwd=passwd, zooid=1)
-#    print(c.is_login_success(groupcode=gcode, passwd=passwd))
-
+    pass

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block contents %}
+<div class="row">
+    <div class="ten columns">ログイングループ名：{{login}}</div>
+    <div class="one column" style="vertical-align: middle;"><a href="/menu"
+                                                                target="_parent"><img src="/static/img/return.png"
+                                                                                alt="メニューに戻る"
+                                                                      width="32"
+                                                                                      height="32"></a></div>
+    <div class="one column" style="vertical-align: middle;"><a href="/logout"
+                                                                target="_parent"><img src="/static/img/logout.png"
+                                                                                alt="ログアウト"
+                                                                      width="32"
+                                                                                      height="32"></a></div>
+</div>
+<div class="row">
+<hr>
+</div>
+<h2>設定サブメニュー</h2>
+<li>
+    <ul>グループ登録</ul>
+    <ul>グループ削除</ul>
+    <ul>マスターカレンダー登録</ul>
+    <ul>マスターカレンダー削除</ul>
+</li>
+{% endblock %}
+{% block footer %}
+{{super()}}
+<div class="row">
+    Icons designed by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a
+        href="https://www.flaticon.com/" title="Flaticon">Flaticon</a> is licensed by <a
+        href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+</div>
+{% endblock %}

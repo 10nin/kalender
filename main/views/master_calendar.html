@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block contents %}
 <div class="row">
-    活動可能日：
-    時間帯：
+    <label>活動可能日：<input type="date" name="master_date"></label>
+    <label>時間帯：<select name="master_time" style="width: 75px;">
+        <option value="{{s['id']}}" selected>{{s['val']}}</option>
+        <option value="{{s['id']}}" selected>{{s['val']}}</option>
+    </select></label>
 </div>
 <div class="row">
 <hr>

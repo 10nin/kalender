@@ -2,12 +2,14 @@
 {% block contents %}
 <div class="row">
     <form name="login_info" action="/" method="post" accept-charset="UTF-8">
-        <img src="/static/img/user.png" alt="グループID" width="16" height="16">&nbsp;<input type="text" name="group_code"
+        <label><img src="/static/img/user.png" alt="グループID" width="16" height="16">&nbsp;<input type="text"
+                                                                                            name="group_code"
                                                                                         size="20" maxlength="120"
-                                                                                         title="10桁のグループコードを入力"><br>
-        <img src="/static/img/lock.png" alt="パスワード" width="16" height="16">&nbsp;<input type="password" name="passwd"
+                                                                                         title="10桁のグループコードを入力"></label><br>
+        <label><img src="/static/img/lock.png" alt="パスワード" width="16" height="16">&nbsp;<input type="password"
+                                                                                            name="passwd"
                                                                                         size="20" maxlength="120"
-                                                                                        title="ログインパスワードを入力"><br>
+                                                                                        title="ログインパスワードを入力"></label><br>
         <input type="submit" value="ログイン">
     </form>
 </div>

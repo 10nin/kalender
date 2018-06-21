@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 {% block contents %}
 <div class="row">
+    <table>
+        <caption>グループ一覧</caption>
+        <thead>
+        <tr>
+            <th></th><th>グループ名</th><th>作成年月日</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for g in grs %}
+        <tr><td></td><td>g.name</td><td>g.createdon</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
